@@ -9,4 +9,4 @@
            |_|                                   
 </pre>
 
-Server in PHP with GraphQL to communicate with OpenWRT configuration
+Server in Lua to communicate with OpenWRT configuration

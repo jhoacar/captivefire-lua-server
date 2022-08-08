@@ -37,6 +37,7 @@ services:
       - ./docker/etc/crontabs:/etc/crontabs
       - ./docker/etc/rc.local:/etc/rc.local
       - ./docker/root/ssh:/root/.ssh
+      - ./luci:/usr/lib/lua/luci
       - ./banner.txt:/etc/banner
       - .:/app
     extra_hosts:
