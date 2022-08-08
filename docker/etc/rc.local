@@ -1,0 +1,144 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+# If is a docker container, it takes about 1 minute
+#!/bin/sh
+
+# ====================================================================================
+# Steps for Main Router (must have connected internet on WAN port)
+# https://gist.github.com/braian87b/2333a32577a221c8d62b5ce8b54a4d95
+# ====================================================================================
+
+
+function setPhpIniConfiguration(){
+    sed -i "s/$1 = .*/$1 = $2/" /etc/php.ini
+}
+
+function setPhpIniDocRoot(){
+    setPhpIniConfiguration "doc\_root" " "
+}
+
+function setSSHAcces(){
+    uci set dropbear.@dropbear[0].PasswordAuth="0"
+    uci set dropbear.@dropbear[0].RootPasswordAuth="0"
+    tee -a /etc/dropbear/authorized_keys < /root/.ssh/id_rsa_captivefire.pub
+}
+
+function setLuciConfigurationFolders(){
+    ln -s /www/cgi-bin /app/public/cgi-bin
+    ln -s /www/luci-static /app/public/luci-static
+}
+
+function disableLuciApp(){
+    uci set uhttpd.captivefire.no_symlinks='1'
+}
+
+function enableLuciApp(){
+    uci set uhttpd.captivefire.no_symlinks='0'
+}
+
+function setSystemConfiguration(){
+
+    HOSTNAME="`uci get system.@system[0].hostname`"
+    if [ $HOSTNAME = 'Captivefire' ]
+    then
+        echo "The configuration has been setted"
+        exit 0
+    else
+        uci set system.@system[0].hostname='Captivefire'
+        
+        setNetworkConfiguration
+        setDhcpRange
+        setCaptivefireWireless
+        setCaptivePortalFirewall
+        
+        uci commit
+        sync
+        reboot
+    fi
+}
+
+function setNetworkConfiguration(){
+    uci set network.lan.ipaddr='10.0.0.11'
+    uci set network.lan.netmask='255.255.0.0'
+    uci set network.lan.hostname="`uci get system.@system[0].hostname`"
+}
+
+function setDhcpRange(){
+    uci del dhcp.lan.ra_slaac
+    uci set dhcp.lan.start='12'
+    uci set dhcp.lan.limit='1000'
+}
+
+function setCaptivePassword(){
+    echo -e "Captivefire\nCaptivefire" | passwd  
+}
+
+function setCaptivefireWireless(){
+
+    # Delete existing wireless interfaces
+    uci del wireless.@wifi-iface[-1]
+    uci del wireless.@wifi-iface[-1]
+    uci del wireless.@wifi-iface[-1]
+
+    # Enable radio
+    uci set wireless.radio0.disabled='0'
+    uci del wireless.radio0.htmode
+    uci set wireless.radio0.band='2g'
+    uci set wireless.radio0.channel='auto'
+    uci set wireless.radio0.cell_density='0'
+    
+    uci set wireless.wifinet0=wifi-iface
+    uci set wireless.wifinet0.device='radio0'
+    uci set wireless.wifinet0.mode='ap'
+    uci set wireless.wifinet0.ssid='🔥 Captivefire'
+    uci set wireless.wifinet0.encryption='none'
+    uci set wireless.wifinet0.network='lan'
+    uci set wireless.wifinet0.disabled='0'
+}
+
+function setCaptivePortalFirewall(){
+    # Delete existing firewall redirect
+    uci del firewall.@redirect[-1]
+    uci del firewall.@redirect[-1]
+    uci del firewall.@redirect[-1]
+
+    setCaptureHTTP
+    setCaptureDNS
+}
+
+function setCaptureHTTP(){
+    
+    # iptables -t nat -A PREROUTING -i br-lan -p tcp --dport 80 -j DNAT --to-destination $(uci get network.lan.ipaddr):80
+    # https://forum.archive.openwrt.org/viewtopic.php?id=71812
+    uci add firewall redirect;
+    uci set firewall.@redirect[-1].name=Capture-HTTP;
+    uci set firewall.@redirect[-1].src=lan;
+    uci set firewall.@redirect[-1].proto=tcp;
+    uci set firewall.@redirect[-1].src_dip=!$(uci get network.lan.ipaddr);
+    uci set firewall.@redirect[-1].src_dport="80";
+    uci set firewall.@redirect[-1].dest_port="80";
+    uci set firewall.@redirect[-1].dest_ip=$(uci get network.lan.ipaddr);
+    uci set firewall.@redirect[-1].target=DNAT;
+}
+
+function  setCaptureDNS(){
+    
+    uci del dhcp.@dnsmasq[0].address
+    uci add_list dhcp.@dnsmasq[0].address="/router.local/$(uci get network.lan.ipaddr)";
+
+    uci add firewall redirect;
+    uci set firewall.@redirect[-1].name=Capture-DNS;
+    uci set firewall.@redirect[-1].src=lan;
+    uci set firewall.@redirect[-1].src_dip=!$(uci get network.lan.ipaddr);
+    uci set firewall.@redirect[-1].src_dport=53;
+    uci set firewall.@redirect[-1].dest_port=53;
+    uci set firewall.@redirect[-1].dest_ip=$(uci get network.lan.ipaddr);
+    uci set firewall.@redirect[-1].target=DNAT;
+}
+
+setLuciConfigurationFolders
+setSSHAcces
+setCaptivePassword
+setSystemConfiguration
+
+exit 0

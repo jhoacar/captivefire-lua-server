@@ -1,0 +1,10 @@
+{
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": "\\.lua$",
+                "cmd": "docker exec captivefire service uhttpd restart"
+            }
+        ]
+    }
+}
