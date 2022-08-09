@@ -6,7 +6,6 @@ ENV PATH_LIB="/usr/share/lua"
 RUN mkdir /var/lock && \
     opkg update && opkg install \
     uhttpd \
-    uhttpd-mod-lua \
     luci \
     luci-ssl
 
@@ -45,7 +44,7 @@ RUN wget https://github.com/leafo/pgmoon/archive/refs/heads/master.zip -P /tmp &
     rm -rf /tmp/master /tmp/pgmoon-master
 
 # Configuration for require folders
-RUN ln -s /app/src /usr/lib/lua/captivefire
+RUN ln -s /app/src /usr/lib/lua/captivefire && echo 'return require("captivefire.init")' > /usr/lib/lua/lapis.lua
 
 ARG FOLDER=/app/
 ENV FOLDER=$FOLDER
