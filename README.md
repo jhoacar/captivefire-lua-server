@@ -9,4 +9,4 @@
            |_|                                   
 </pre>
 
-Server in Lua to communicate with OpenWRT configuration
+Server in Lua with Lapis framework to communicate with OpenWRT configuration

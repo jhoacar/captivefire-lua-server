@@ -1,9 +1,19 @@
-local pr = require "luci.http"
--- since openwrt 19 try this
--- local pr = require "luci.http"
+local lapis = require("lapis")
 
-function handle_request(env)
-    uhttpd.send("Status: 200 OK\r\n")
-    uhttpd.send("Content-Type: text/html\r\n\r\n")
-    uhttpd.send('<h1>Hello Mundo</h1>')
-end
+local app = lapis.Application()
+app:enable("etlua")
+
+app:get("index", "/", function(self)
+  -- renders views/index.etlua
+  return { render = true }
+end)
+
+app:get("/user/:name", function(self)
+  return "Welcome to " .. self.params.name .. "'s profile"
+end)
+
+app:get("/test.json", function(self)
+  return { json = { status = "ok" } }
+end)
+
+return app
