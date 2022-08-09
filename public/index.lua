@@ -5,6 +5,6 @@ local pr = require "luci.http"
 
 function handle_request(env)
 
-    local handler = require "src.index"
+    local handler = require "captivefir.index"
     handler:handle_response(env)
 end
