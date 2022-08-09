@@ -42,6 +42,9 @@ RUN wget https://github.com/leafo/pgmoon/archive/refs/heads/master.zip -P /tmp &
     cp -r /tmp/pgmoon-master/pgmoon /usr/lib/lua && \
     cp /tmp/pgmoon-master/pgmoon.lua /usr/lib/lua/pgmoon.lua
 
+# Configuration for require folders
+RUN ln -s /app /usr/share/lua
+
 ARG FOLDER=/app/
 ENV FOLDER=$FOLDER
 
