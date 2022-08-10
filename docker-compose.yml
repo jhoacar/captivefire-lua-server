@@ -20,7 +20,7 @@ services:
         reservations:
           memory: '${RAM_MEMORY_LIMIT:-32M}'
     # -----------------------------------------------------
-    container_name: captivefire
+    container_name: '${CONTAINER_NAME:-captivefire}'
     # ----------- Doesn't work using an init script -------
     # ----------- Its used /etc/rc.local instead ----------
     # command: /app/docker/start-container.sh 

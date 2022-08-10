@@ -9,14 +9,12 @@ config uhttpd 'captivefire'
 	option index_page 'index.lua'
 	option error_page '/index.lua'
 	list interpreter '.lua=/usr/bin/lua' 
-	list lua_prefix '/cgi-bin/luci=/usr/lib/lua/luci/sgi/uhttpd.lua'
 	option no_symlinks '0'
 	option no_dirlists '1'
 	option cert '/etc/uhttpd.crt'
 	option key '/etc/uhttpd.key'
 
 # Its necessary luci-ssl package
-
 config cert 'defaults'
 	option days '730'
 	option key_type 'ec'

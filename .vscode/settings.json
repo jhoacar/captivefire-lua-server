@@ -3,7 +3,7 @@
         "commands": [
             {
                 "match": "\\.lua$",
-                "cmd": "docker exec captivefire service uhttpd restart"
+                "cmd": "docker exec ${env.CONTAINER_NAME} service uhttpd restart"
             }
         ]
     }
