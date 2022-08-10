@@ -6,6 +6,7 @@ ENV PATH_LIB="/usr/share/lua"
 RUN mkdir /var/lock && \
     opkg update && opkg install \
     uhttpd \
+    uhttpd-mod-lua \
     luci \
     luci-ssl
 

@@ -1,44 +1,36 @@
 -- https://github.com/openresty/lua-nginx-module#nginx-api-for-lua
+local function get_name_status(status)
 
-local nixio = require "nixio"
+    local states = {
+        s404 = " Not Found",
+        s500 = " Internal Server Error",
+        s405 = " Method Not Allowed",
+        s403 = " Forbidden",
+        s200 = " OK"
+    }
+    local state = "s" .. status
 
-local env = nixio.getenv()
+    if states[state] ~= nil then
+        return states[state]
+    else
+        return states.s404
+    end
+end
 
-local renv = {
-    CONTENT_LENGTH = env.CONTENT_LENGTH,
-    CONTENT_TYPE = env.CONTENT_TYPE,
-    REQUEST_METHOD = env.REQUEST_METHOD,
-    REQUEST_URI = env.REQUEST_URI,
-    PATH_INFO = env.PATH_INFO,
-    SCRIPT_NAME = env.SCRIPT_NAME:gsub("/+$", ""),
-    SCRIPT_FILENAME = env.SCRIPT_NAME,
-    SERVER_PROTOCOL = env.SERVER_PROTOCOL,
-    QUERY_STRING = env.QUERY_STRING,
-    DOCUMENT_ROOT = env.DOCUMENT_ROOT,
-    HTTPS = env.HTTPS,
-    REDIRECT_STATUS = env.REDIRECT_STATUS,
-    REMOTE_ADDR = env.REMOTE_ADDR,
-    REMOTE_NAME = env.REMOTE_NAME,
-    REMOTE_PORT = env.REMOTE_PORT,
-    REMOTE_USER = env.REMOTE_USER,
-    SERVER_ADDR = env.SERVER_ADDR,
-    SERVER_NAME = env.SERVER_NAME,
-    SERVER_PORT = env.SERVER_PORT
-}
 
 ngx = {}
 ngx.ctx = {}
 ngx.var = {
-    request_method = renv.REQUEST_METHOD,
-    request_uri = renv.REQUEST_URI,
-    server_addr = renv.SERVER_ADDR,
-    server_port = renv.SERVER_PORT,
-    scheme = renv.SERVER_PROTOCOL,
-    remote_addr = renv.REMOTE_ADDR,
-    http_host = renv.SERVER_NAME,
-    host = renv.SERVER_NAME,
-    http_referer = renv.SERVER_ADDR,
-    args = renv.QUERY_STRING
+    request_method = env.REQUEST_METHOD,
+    request_uri = env.REQUEST_URI,
+    server_addr = env.SERVER_ADDR,
+    server_port = env.SERVER_PORT,
+    scheme = env.SERVER_PROTOCOL,
+    remote_addr = env.REMOTE_ADDR,
+    http_host = env.SERVER_NAME,
+    host = env.SERVER_NAME,
+    http_referer = env.SERVER_ADDR,
+    args = ""
 
 }
 ngx.req = {
@@ -49,7 +41,7 @@ ngx.req = {
 
     end,
     get_headers = function()
-        return {""}
+        return env.headers
     end,
     get_post_args = function(max)
 
@@ -68,11 +60,18 @@ ngx.escape_uri = function(str, type)
 
 end
 ngx.sleep = 0
+local contentType = "Content-Type"
 ngx.header = {}
+ngx.header[contentType] = "text/html"
 ngx.status = 200
 ngx.print = function(content)
-    io.write("Status: " .. ngx.status .. "OK" .. "\r\n")
-    io.write("Content-Type: text/html\r\n\r\n")
-    io.write(content)
+
+    uhttpd.send("Status: " .. ngx.status .. get_name_status(ngx.status) .. "\r\n")
+
+    for key, value in pairs(ngx.header) do
+        uhttpd.send(key .. ": " .. value .. "\r\n")
+    end
+    uhttpd.send("\r\n\r\n")
+    uhttpd.send(content)
 end
 
