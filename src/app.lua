@@ -14,7 +14,7 @@ local app = lapis.Application()
 
 -- app.layout = require("captivefire.views.layout")
 
-app:match("/", function(self)
+app:match("/*", function(self)
     local message = "<ul>"
     for key, value in pairs(env) do
         message = message .. "<li><strong>" .. key .. " :  </strong>"
@@ -32,23 +32,18 @@ app:match("/", function(self)
         end
         message = message .. "</li>"
     end
-    local POST = nil
-    local POSTLength = tonumber(env.CONTENT_LENGTH) or 0
-    if (POSTLength > 0 and POSTLength < 4096) then
-        -- POST = io.read(POSTLength)
-        POST = ngx.req.get_body_data()
-    end
-    POST = POST or "-"
-    message = message .. "<li><strong>POST: </strong>" .. POST .. "</li>"
-    message = message .. "</ul>"
-    message = message .. [[
-        <form method="POST" enctype="multipart/form-data">
-            <input type="text" name="mensaje" value="Hola mundo">
-            <input type="file" name="archivo">
-            <input type="submit" value="Send">
-        </form>
-    ]]
-    return message
+    ngx.req.read_body()
+    local post = self.req.json_params()
+    message = message .. "<li><strong>POST: </strong>" .. luci.util.serialize_json(post) .. "</li>"
+    -- message = message .. "</ul>"
+    -- message = message .. [[
+    --     <form method="POST" enctype="multipart/form-data">
+    --         <input type="text" name="mensaje" value="Hola mundo">
+    --         <input type="file" name="archivo">
+    --         <input type="submit" value="Send">
+    --     </form>
+    -- ]]
+    return { json = { hello = "world" } }
 end)
 
 function app:handle_error(err, trace)

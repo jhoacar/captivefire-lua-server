@@ -3,9 +3,10 @@ local function run(vars)
     env = vars
 
     local lapis = require "lapis"
-    require "captivefire.uhttpd.nginxadapter"
+    require "captivefire.uhttpd.nginx-adapter"
 
     local app = require "captivefire.app"
+    
     lapis.serve(app)
 end
 

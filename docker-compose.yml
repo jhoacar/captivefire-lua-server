@@ -30,7 +30,7 @@ services:
       # ssh -L127.0.0.1:8080:127.0.0.1:8080 root@localhost
       # --------------------------------------------------
       - '${APP_SSH_PORT:-22}:22' # SSH Connection
-      - '${APP_HTTP_PORT:-80}:80' # HTTP Captivefire
+      - '${APP_HTTP_PORT:-8080}:8080' # HTTP Captivefire
       - '${APP_HTTPS_PORT:-443}:443' # HTTPS Captivefire
     volumes:
       - ./docker/etc/config/uhttpd:/etc/config/uhttpd
