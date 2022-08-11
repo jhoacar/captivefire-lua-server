@@ -20,6 +20,14 @@ RUN opkg install unzip && \
     echo 'return require("lapis.init")' > $PATH_LIB/lapis.lua && \
     rm -rf /tmp/master /tmp/lapis-master
 
+# Install NGINX Adapter
+
+RUN wget https://github.com/jhoacar/uhttpd-ngx-lua-adapter/archive/refs/heads/master.zip -P /tmp && \
+    unzip /tmp/master -d /tmp && \
+    mkdir -p $PATH_LIB/nginx && \
+    cp -r /tmp/uhttpd-ngx-lua-adapter-master/uhttpd $PATH_LIB/nginx && \
+    rm -rf /tmp/master /tmp/uhttpd-ngx-lua-adapter-master
+
 # Install Lapis Dependencies
 
 #Install ansicolors
