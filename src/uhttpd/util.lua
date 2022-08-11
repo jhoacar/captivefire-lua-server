@@ -1,3 +1,4 @@
+-- https://gitlab.com/rychly/uhttpd-lua-utils/-/blob/master/lua/uhttpd-request.lua
 local json = require("cjson")
 
 local _M = {}
@@ -22,9 +23,9 @@ function _M.uhttpd_urldecode(urlencoded)
 end
 
 function _M.parse_form_data(form_data, content_type)
-    -- if content_type and _M.is_json(content_type) then
-    --     return json.decode(form_data)
-    -- end
+    if content_type and _M.is_json(content_type) then
+        return json.decode(form_data)
+    end
     local parsed = {}
     for form_item in string.gmatch(form_data, "[^&]+") do
         local item_parts = string.gmatch(form_item, "[^=]+")

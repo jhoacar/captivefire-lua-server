@@ -20,6 +20,10 @@ RUN opkg install unzip && \
     echo 'return require("lapis.init")' > $PATH_LIB/lapis.lua && \
     rm -rf /tmp/master /tmp/lapis-master
 
+# Added custom nginx patch for json response
+RUN mv $PATH_LIB/lapis/nginx.lua $PATH_LIB/lapis/nginx.lua.old && \
+    ln -s /app/src/uhttpd/nginx-json.lua $PATH_LIB/lapis/nginx.lua
+
 # Install Lapis Dependencies
 
 #Install ansicolors
@@ -46,6 +50,7 @@ RUN ln -s /app/src /usr/lib/lua/captivefire && echo 'return require("captivefire
 
 # Configuration for views
 RUN ln -s /app/src/views /usr/lib/lua/views
+
 
 ARG FOLDER=/app/
 ENV FOLDER=$FOLDER
