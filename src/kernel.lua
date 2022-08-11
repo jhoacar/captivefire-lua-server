@@ -1,7 +1,10 @@
 local function run(vars)
-    local lapis = require "lapis"
+    -- Using this global variable is loaded ngx variable environment
     env = vars
+
+    local lapis = require "lapis"
     require "captivefire.uhttpd.nginxadapter"
+
     local app = require "captivefire.app"
     lapis.serve(app)
 end
