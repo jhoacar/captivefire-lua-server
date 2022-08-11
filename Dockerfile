@@ -20,7 +20,7 @@ RUN opkg install unzip && \
     echo 'return require("lapis.init")' > $PATH_LIB/lapis.lua && \
     rm -rf /tmp/master /tmp/lapis-master
 
-# Added custom nginx patch for json response
+# Added custom nginx feature for json request
 RUN mv $PATH_LIB/lapis/nginx.lua $PATH_LIB/lapis/nginx.lua.old && \
     ln -s /app/src/uhttpd/nginx-json.lua $PATH_LIB/lapis/nginx.lua
 
