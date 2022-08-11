@@ -1,5 +1,5 @@
 -- Full documentation: https://github.com/openresty/lua-nginx-module#nginx-api-for-lua
-local util = require "captivefire.uhttpd.util"
+local util = require "uhttpd.util"
 local req_body = nil
 
 ngx = {}

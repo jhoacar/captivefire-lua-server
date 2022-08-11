@@ -20,10 +20,6 @@ RUN opkg install unzip && \
     echo 'return require("lapis.init")' > $PATH_LIB/lapis.lua && \
     rm -rf /tmp/master /tmp/lapis-master
 
-# Added custom nginx feature for json request
-RUN mv $PATH_LIB/lapis/nginx.lua $PATH_LIB/lapis/nginx.lua.old && \
-    ln -s /app/src/uhttpd/nginx-json.lua $PATH_LIB/lapis/nginx.lua
-
 # Install Lapis Dependencies
 
 #Install ansicolors
@@ -43,7 +39,6 @@ RUN mkdir -p $PATH_LIB/resty && wget https://raw.githubusercontent.com/openresty
 
 # Install using openwrt package manager
 RUN opkg install lpeg lua-cjson luaossl luafilesystem luasocket
-
 
 # Configuration for require folders
 RUN ln -s /app/src /usr/lib/lua/captivefire && echo 'return require("captivefire.init")' > /usr/lib/lua/lapis.lua
