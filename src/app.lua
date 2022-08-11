@@ -1,15 +1,21 @@
 local lapis = require "lapis"
 local app = lapis.Application()
-app:enable("etlua")
+
+-- local function uhttpd_recv_all()
+--     local content = "";
+--     repeat
+--         local rlen, rbuf = uhttpd.recv(4096)
+--         if (rlen >= 0) then
+--             content = content .. rbuf
+--         end
+--     until (rlen >= 0)
+--     return content
+-- end
 
 -- app.layout = require("captivefire.views.layout")
 
 app:match("/", function(self)
-
-    local utils = require "luci.util"
-
     local message = "<ul>"
-
     for key, value in pairs(env) do
         message = message .. "<li><strong>" .. key .. " :  </strong>"
         if type(value) == "string" or type(value) == "number" then
@@ -29,27 +35,20 @@ app:match("/", function(self)
     local POST = nil
     local POSTLength = tonumber(env.CONTENT_LENGTH) or 0
     if (POSTLength > 0 and POSTLength < 4096) then
-        POST = ngx.req.read_body()
+        -- POST = io.read(POSTLength)
+        POST = ngx.req.get_body_data()
     end
     POST = POST or "-"
     message = message .. "<li><strong>POST: </strong>" .. POST .. "</li>"
-    message = message .. "<li><strong>PARSED: </strong>" .. utils.serialize_json(ngx.req.get_body_data()) .. "</li>"
     message = message .. "</ul>"
     message = message .. [[
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <input type="text" name="mensaje" value="Hola mundo">
-            <input type="text" name="otromensaje" value="Mensaje!!">
+            <input type="file" name="archivo">
             <input type="submit" value="Send">
         </form>
     ]]
     return message
-end)
-
-app:match("/animals", function(self)
-    self.pets = {"Cat", "Dog", "Bird"}
-    return {
-        render = "hello"
-    }
 end)
 
 function app:handle_error(err, trace)

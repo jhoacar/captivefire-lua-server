@@ -1,9 +1,10 @@
 -- Full documentation: https://github.com/openresty/lua-nginx-module#nginx-api-for-lua
+local req_body = nil
 local function uhttpd_recv_all()
     local content = "";
     repeat
-        local rlen, rbuf = uhttpd.recv(4096)
-        if (rlen >= 0) then
+        local rlen, rbuf = uhttpd.recv(env.CONTENT_LENGTH or 4096)
+        if rlen >= 0 and rbuf ~= nil then
             content = content .. rbuf
         end
     until (rlen >= 0)
@@ -60,7 +61,7 @@ ngx.var = {
 }
 ngx.req = {
     read_body = function()
-        if env.CONTENT_TYPE == "application/x-www-form-urlencoded" then
+        if env.CONTENT_TYPE == "application/x-www-form-urlencoded" and not req_body then
             req_body = uhttpd_recv_all()
             return req_body
         end
