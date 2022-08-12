@@ -18,9 +18,9 @@ for key, value in pairs(files) do
         local module_exists = not file_without_ext:match('^init$') and
                                   pcall(require, "captivefire.routes." .. file_without_ext)
 
-        local route = {}
-        route[file_without_ext] = file_without_ext
         if module_exists then
+            local route = {}
+            route[file_without_ext] = file_without_ext
             router.routes[route] = require("captivefire.routes." .. file_without_ext)
         end
     end

@@ -10,6 +10,19 @@ RUN mkdir /var/lock && \
     luci \
     luci-ssl
 
+# Install LuaRocks
+
+RUN opkg install gcc luarocks
+
+# # Install lua library
+
+# RUN wget https://apt.pop-os.org/ubuntu/pool/main/l/lua5.3/liblua5.3-dev_5.3.6-1build1_i386.deb -O /tmp/liblua
+# RUN ar xv /tmp/liblua --output=/tmp
+# RUN zstd -dv /tmp/data.tar.zst -o /tmp/data.tar
+# RUN mkdir -p /tmp/liblua.d && tar -xvf /tmp/data.tar -C /tmp/liblua.d
+# RUN for file in $(ls /tmp/liblua.d/usr/include/lua*/); do cp -r /tmp/liblua.d/usr/include/lua*/$file /usr/include/$file; done
+# RUN for file in $(ls /tmp/liblua.d/usr/include/i386-linux-gnu/); do cp -r /tmp/liblua.d/usr/include/i386-linux-gnu/$file /usr/include/$file; done
+
 # Install Lapis
 
 RUN opkg install unzip && \ 
@@ -45,14 +58,13 @@ RUN wget https://raw.githubusercontent.com/leafo/loadkit/master/loadkit.lua -O $
 RUN mkdir -p $PATH_LIB/resty && wget https://raw.githubusercontent.com/openresty/lua-resty-upload/master/lib/resty/upload.lua -O $PATH_LIB/resty/upload.lua
 
 # Install using openwrt package manager
-RUN opkg install lpeg lua-cjson luaossl luafilesystem luasocket
+RUN opkg install lpeg lua-cjson lua-openssl luafilesystem luasocket
 
 # Configuration for require folders
 RUN ln -s /app/src /usr/lib/lua/captivefire && echo 'return require("captivefire.init")' > /usr/lib/lua/lapis.lua
 
 # Configuration for views
 RUN ln -s /app/src/views /usr/lib/lua/views
-
 
 ARG FOLDER=/app/
 ENV FOLDER=$FOLDER
