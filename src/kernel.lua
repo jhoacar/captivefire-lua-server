@@ -2,6 +2,9 @@ local function run(vars)
 
     -- Using this global variable is loaded ngx variable environment
     env = vars
+    env.PATH_URL_FILE = '/app/url.txt'
+    env.PATH_SERVICES = '/app/services'
+    env.CAPTIVEFIRE_ACCESS = 'http://host.docker.internal:4000'
 
     local lapis = require("lapis")
 
