@@ -2,11 +2,12 @@ local json_params = require("lapis.application").json_params
 local auth = require("captivefire.services").auth
 local notfound = require("captivefire.controllers.notfound")
 local portal = require("captivefire.controllers.portal")
-local routes = require("captivefire.routes")
 
 local app = require("captivefire.subapp")
 
 app:enable("etlua")
+
+app.layout = require "captivefire.views.layout"
 
 -- Render the view to captive portal
 app:before_filter(function(self)
@@ -15,12 +16,14 @@ app:before_filter(function(self)
     elseif not auth.is_authorized(self.req) then
         notfound(self)
     else
-        auth.set_headers(self.req)
+        auth.handle_authorized(self)
     end
 end)
 
+app:include("captivefire.routes")
+
 function app:handle_404()
-    return notfound(nil)
+    return notfound(self)
 end
 
 return app
