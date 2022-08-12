@@ -12,8 +12,9 @@ app.layout = require "captivefire.views.layout"
 app:before_filter(function(self)
     if self.req.scheme ~= "https" then
         portal(self)
-    elseif not auth.is_authorized(self.req) then
+    elseif not auth.is_authorized(self) then
         notfound(self)
+        return nil
     else
         auth.handle_authorized(self)
     end
