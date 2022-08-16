@@ -26,4 +26,6 @@ function _M.fetch(url, options)
     }
 end
 
+package.loaded["util.curl"] = _M
+
 return _M

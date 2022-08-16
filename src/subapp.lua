@@ -83,7 +83,9 @@ function app:include(app_path)
             }))
         end
     end
+
 end
 
-return app
+package.loaded["subapp"] = app
 
+return app

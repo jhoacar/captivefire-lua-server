@@ -1,0 +1,47 @@
+# Project: Captivefire - Lua
+# Makefile created by Jhoan Carrero
+
+##########################################################
+### CONFIGURATION 
+APP 		:= lib/captivefire.lua
+SRC 		:= src
+COMPILER 	:= luac
+###########################################################
+
+ifeq ($(OS),Windows_NT) #WINDOWS ...
+##########################################################
+### SHELL SCRIPT WINDOWS
+SEARCH_FILES 	:= dir /s/b
+SEARCH_DIRS  	:= dir $(SRC) /ad /b /s
+MKDIR 		 	:= mkdir
+##########################################################
+else #LINUX ...
+##########################################################
+### SHELL SCRIPT LINUX
+SEARCH_FILES 	:= find $(SRC)/ -type f -iname
+SEARCH_DIRS  	:= find $(SRC)/ -type d
+MKDIR 		 	:= mkdir -p
+##########################################################
+endif
+
+#########################################################
+### EXTRACTION OF PROJECT FILES IN PRIORITY ORDER
+MAIN			:= subapp app kernel
+ALL_FOLDERS		:= util services controllers routes
+MAIN_FILES 		:= $(foreach FILE,$(MAIN),$(shell $(SEARCH_FILES) $(FILE).lua))
+ALL_LUA_FILES 	:= $(foreach DIRECTORY,$(ALL_FOLDERS),$(shell $(subst $(SRC),$(SRC)/$(DIRECTORY),$(SEARCH_FILES)) *.lua))
+
+.PHONY: info
+.PHONY: build
+
+########################################################
+### BUILD PROCESS
+build:
+	$(COMPILER) -o $(APP) $(ALL_LUA_FILES) $(MAIN_FILES)
+########################################################
+
+########################################################
+### SHOW INFO
+info:
+	$(info $(MAIN_FILES) $(ALL_LUA_FILES))
+########################################################

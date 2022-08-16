@@ -1,6 +1,7 @@
 local url = require("captivefire.util.url")
+local file = require("captivefire.util.file")
 
-return {
+local _M = {
     before = function(self)
         -- do something before this route
     end,
@@ -26,8 +27,7 @@ return {
             }
         end
 
-        local handler = io.popen("echo '" .. request_url .. "'> " .. env.PATH_URL_FILE)
-        handler:close()
+        file.save_file_contents(request_url, env.PATH_URL_FILE)
 
         return {
             json = {
@@ -36,3 +36,7 @@ return {
         }
     end
 }
+
+package.loaded["routes.portal"]  = _M
+
+return _M

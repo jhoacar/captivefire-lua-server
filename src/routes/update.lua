@@ -1,4 +1,4 @@
-return {
+local _M = {
     before = function(self)
         -- do something before this route
     end,
@@ -14,3 +14,7 @@ return {
         }
     end
 }
+
+package.loaded["routes.update"] = _M
+
+return _M

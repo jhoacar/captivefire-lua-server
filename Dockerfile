@@ -10,9 +10,13 @@ RUN mkdir /var/lock && \
     luci \
     luci-ssl
 
+# Install Lua Compiler
+
+RUN opkg install luac
+
 # Install LuaRocks
 
-RUN opkg install gcc luarocks
+# RUN opkg install gcc luarocks
 
 # # Install lua library
 

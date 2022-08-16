@@ -1,4 +1,4 @@
-return function(self)
+local _M = function(self)
     self:write({
         json = {
             error = "Not found"
@@ -12,3 +12,7 @@ return function(self)
         status = 404
     }
 end
+
+package.loaded["controllers.notfound"] = _M
+
+return _M

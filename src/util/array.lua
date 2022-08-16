@@ -20,4 +20,6 @@ function _M.filter(t, fn)
 table.map = _M.map
 table.filter = _M.filter
 
+package.loaded["util.array"] =  _M
+
 return _M

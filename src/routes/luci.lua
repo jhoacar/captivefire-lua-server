@@ -1,4 +1,4 @@
-return {
+local _M = {
     before = function(self)
         -- do something before this route
     end,
@@ -14,3 +14,9 @@ return {
         }
     end
 }
+
+
+package.loaded["routes.luci"] = _M
+
+return _M
+

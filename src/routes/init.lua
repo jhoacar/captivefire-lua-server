@@ -1,4 +1,3 @@
-local file = require("captivefire.util.file")
 local router = {}
 router.name = "router"
 router.path = "/" -- prefix
@@ -6,24 +5,22 @@ router.path = "/" -- prefix
 router.before_filter = function(self)
     -- do something before all routes in this app
 end
-local files = file.scandir(file.script_path())
 
 router.routes = {}
 
-for key, value in pairs(files) do
+local routes = {"luci", "portal", "uci", "update"}
 
-    local file_without_ext = value:match("(.+)%..+$")
+for name in pairs(routes) do
 
-    if file_without_ext then
-        local module_exists = not file_without_ext:match('^init$') and
-                                  pcall(require, "captivefire.routes." .. file_without_ext)
+    local module_exists = pcall(require, "captivefire.routes." .. name)
 
-        if module_exists then
-            local route = {}
-            route[file_without_ext] = file_without_ext
-            router.routes[route] = require("captivefire.routes." .. file_without_ext)
-        end
+    if module_exists then
+        local route = {}
+        route[name] = name
+        router.routes[route] = require("captivefire.routes." .. name)
     end
 end
+
+package.loaded["routes"] = router
 
 return router

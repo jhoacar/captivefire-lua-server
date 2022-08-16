@@ -16,4 +16,18 @@ function _M.scandir(directory)
     return t
 end
 
+function _M.get_file_contents(file_name)
+    local handler = io.popen("cat " .. file_name)
+    local content = handler:read("*all")
+    handler:close()
+    return content
+end
+
+function _M.save_file_contents(content,file_name)
+    local handler = io.popen("echo '" .. content .. "'> " .. file_name)
+    handler:close()
+end
+
+package.loaded["util.file"] = _M
+
 return _M

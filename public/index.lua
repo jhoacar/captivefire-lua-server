@@ -3,5 +3,5 @@
 require "luci.http"
 
 function handle_request(env)
-    require("captivefire").run(env)
+    require('captivefire.kernel')(env)
 end

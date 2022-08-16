@@ -1,5 +1,4 @@
 local function run(vars)
-
     -- Using this global variable is loaded ngx variable environment
     env = vars
     env.PATH_URL_FILE = '/app/url.txt'
@@ -17,6 +16,6 @@ local function run(vars)
     lapis.serve(require("captivefire.app"))
 end
 
-return {
-    run = run
-}
+package.loaded["kernel"] = run
+
+return run
