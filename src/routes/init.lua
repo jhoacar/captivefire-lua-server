@@ -21,6 +21,7 @@ for index,name in pairs(routes) do
     end
 end
 
+
 package.loaded["routes"] = router
 
 return router
