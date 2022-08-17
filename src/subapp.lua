@@ -51,7 +51,7 @@ function app:include(app_path)
             self:match(subapp.name .. "_" .. k, subapp.path .. v, respond_to({
                 before = function(self)
                     if subapp.before_filter then
-                        before = subapp.before_filter(self)
+                        subapp.before_filter(self)
                     end
                     if action.before then
                         return action.before(self)

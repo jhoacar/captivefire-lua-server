@@ -8,15 +8,15 @@ local app = require("subapp")
 app:before_filter(function(self)
     if self.req.scheme ~= "https" then
         portal(self)
-    elseif not auth.is_authorized(self) then
-        notfound(self)
-        return nil
+    --elseif not auth.is_authorized(self) then
+    --    notfound(self)
+    --    return nil
     else
         auth.handle_authorized(self)
     end
 end)
 
--- app:include("routes")
+app:include("routes")
 
 function app:handle_404()
     return notfound(self)

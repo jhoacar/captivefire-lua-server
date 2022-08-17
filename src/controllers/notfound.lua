@@ -1,7 +1,7 @@
 local _M = function(self)
     self:write({
         json = {
-            error = "Not found"
+            error = "Not found",
         },
         status = 404
     })

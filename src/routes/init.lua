@@ -10,7 +10,7 @@ router.routes = {}
 
 local routes = {"luci", "portal", "uci", "update"}
 
-for name in pairs(routes) do
+for index,name in pairs(routes) do
 
     local module_exists = pcall(require, "routes." .. name)
 
