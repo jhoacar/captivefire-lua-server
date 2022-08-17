@@ -3,5 +3,7 @@
 require "luci.http"
 
 function handle_request(env)
-    require('captivefire.kernel')(env)
+    package.path = "/app/build/?.luac;" .. package.path
+    require("captivefire")
+    require('kernel')(env)
 end

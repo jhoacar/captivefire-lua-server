@@ -3,7 +3,7 @@
 
 ##########################################################
 ### CONFIGURATION 
-APP 		:= lib/captivefire.lua
+APP 		:= build/captivefire.luac
 SRC 		:= src
 COMPILER 	:= luac
 ###########################################################

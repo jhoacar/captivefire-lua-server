@@ -1,4 +1,4 @@
-local portal = require("captivefire.services.portal")
+local portal = require("services.portal")
 local portal_page = [[
 <head>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />

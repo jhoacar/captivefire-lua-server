@@ -1,10 +1,11 @@
 FROM openwrtorg/rootfs:x86-64
 
-ENV PATH_LIB="/usr/share/lua"
+ENV PATH_LIB="/usr/lib/lua"
 
 # Install Server Dependencies 
 RUN mkdir /var/lock && \
-    opkg update && opkg install \
+    opkg update && \
+    opkg install \
     uhttpd \
     uhttpd-mod-lua \
     luci \
@@ -12,20 +13,7 @@ RUN mkdir /var/lock && \
 
 # Install Lua Compiler
 
-RUN opkg install luac
-
-# Install LuaRocks
-
-# RUN opkg install gcc luarocks
-
-# # Install lua library
-
-# RUN wget https://apt.pop-os.org/ubuntu/pool/main/l/lua5.3/liblua5.3-dev_5.3.6-1build1_i386.deb -O /tmp/liblua
-# RUN ar xv /tmp/liblua --output=/tmp
-# RUN zstd -dv /tmp/data.tar.zst -o /tmp/data.tar
-# RUN mkdir -p /tmp/liblua.d && tar -xvf /tmp/data.tar -C /tmp/liblua.d
-# RUN for file in $(ls /tmp/liblua.d/usr/include/lua*/); do cp -r /tmp/liblua.d/usr/include/lua*/$file /usr/include/$file; done
-# RUN for file in $(ls /tmp/liblua.d/usr/include/i386-linux-gnu/); do cp -r /tmp/liblua.d/usr/include/i386-linux-gnu/$file /usr/include/$file; done
+RUN opkg install luac make
 
 # Install Lapis
 
@@ -63,12 +51,6 @@ RUN mkdir -p $PATH_LIB/resty && wget https://raw.githubusercontent.com/openresty
 
 # Install using openwrt package manager
 RUN opkg install lpeg lua-cjson lua-openssl luafilesystem luasocket
-
-# Configuration for require folders
-RUN ln -s /app/src /usr/lib/lua/captivefire && echo 'return require("captivefire.init")' > /usr/lib/lua/lapis.lua
-
-# Configuration for views
-RUN ln -s /app/src/views /usr/lib/lua/views
 
 ARG FOLDER=/app/
 ENV FOLDER=$FOLDER

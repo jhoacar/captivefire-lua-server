@@ -12,12 +12,12 @@ local routes = {"luci", "portal", "uci", "update"}
 
 for name in pairs(routes) do
 
-    local module_exists = pcall(require, "captivefire.routes." .. name)
+    local module_exists = pcall(require, "routes." .. name)
 
     if module_exists then
         local route = {}
         route[name] = name
-        router.routes[route] = require("captivefire.routes." .. name)
+        router.routes[route] = require("routes." .. name)
     end
 end
 

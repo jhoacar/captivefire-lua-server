@@ -1,11 +1,11 @@
-local url = require("captivefire.util.url")
-local file = require("captivefire.util.file")
+local url = require("util.url")
+local file = require("util.file")
 
 local _M = {
     before = function(self)
         -- do something before this route
     end,
-    GET = require("captivefire.controllers.notfound"),
+    GET = require("controllers.notfound"),
     POST = function(self)
 
         local request_url = self.req.params_post.url

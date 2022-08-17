@@ -1,4 +1,7 @@
+
+
 local function run(vars)
+    
     -- Using this global variable is loaded ngx variable environment
     env = vars
     env.PATH_URL_FILE = '/app/url.txt'
@@ -7,13 +10,13 @@ local function run(vars)
 
     json_encode = luci.util.serialize_json
     json_decode = require("cjson").decode
-
+    
     local lapis = require("lapis")
 
     -- The adapter must be then the require lapis
     require("nginx.uhttpd.adapter")
 
-    lapis.serve(require("captivefire.app"))
+    lapis.serve(require("app"))
 end
 
 package.loaded["kernel"] = run

@@ -1,8 +1,8 @@
-local auth = require("captivefire.services.auth")
-local notfound = require("captivefire.controllers.notfound")
-local portal = require("captivefire.controllers.portal")
+local auth = require("services.auth")
+local notfound = require("controllers.notfound")
+local portal = require("controllers.portal")
 
-local app = require("captivefire.subapp")
+local app = require("subapp")
 
 -- Render the view to captive portal
 app:before_filter(function(self)
@@ -16,7 +16,7 @@ app:before_filter(function(self)
     end
 end)
 
-app:include("captivefire.routes")
+-- app:include("routes")
 
 function app:handle_404()
     return notfound(self)
