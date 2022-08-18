@@ -1,12 +1,4 @@
 -- https://github.com/VaiN474/lapis-lua-subapps
-local function fix_dependecies()
-    local openssl = require("openssl")
-    for k, v in pairs(openssl) do
-        package.loaded["openssl." .. k] = openssl[k]
-    end
-end
-
-fix_dependecies()
 
 local lapis = require("lapis")
 local json = require("cjson")

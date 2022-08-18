@@ -26,7 +26,7 @@ endif
 
 #########################################################
 ### EXTRACTION OF PROJECT FILES IN PRIORITY ORDER
-MAIN			:= subapp app kernel
+MAIN			:= fixer subapp app kernel
 ALL_FOLDERS		:= util services controllers routes
 MAIN_FILES 		:= $(foreach FILE,$(MAIN),$(shell $(SEARCH_FILES) $(FILE).lua))
 MAIN_ROUTE_FILE := $(shell $(subst $(SRC),$(SRC)/routes,$(SEARCH_FILES)) init.lua)

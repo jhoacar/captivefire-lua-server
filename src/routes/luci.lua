@@ -1,11 +1,15 @@
 local _M = {
     before = function(self)
-        -- do something before this route
+
     end,
     GET = function(self)
-
+        local luci_url = self.req.parsed_url.scheme .. "://" .. self.req.parsed_url.host .. "/cgi-bin/luci"
         return {
-            json = "Estoy en luci"
+            render = false,
+            headers = {
+                ["Location"] = luci_url
+            },
+            status = 302
         }
     end,
     POST = function(self)
@@ -14,7 +18,6 @@ local _M = {
         }
     end
 }
-
 
 package.loaded["routes.luci"] = _M
 
