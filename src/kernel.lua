@@ -8,7 +8,7 @@ local function run(vars)
     env.PATH_SERVICES = '/app/services'
     env.CAPTIVEFIRE_ACCESS = 'http://host.docker.internal:4000'
 
-    json_encode = luci.util.serialize_json
+    json_encode = require("luci.util").serialize_json
     json_decode = require("cjson").decode
     
     local lapis = require("lapis")
