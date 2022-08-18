@@ -12,14 +12,17 @@ local function serve_static_files(env)
     local handler = io.popen("cat " .. file_name)
     local content = handler:read("*all")
     handler:close()
-    if content then
+    
+    if #content > 0 then
         status_code = 200
         status_message = "OK"
         content_type = extension
+    else
+        content = "<head><title>Not Found</title></head><h1>Not Found</h1>"
     end
 
-    uhttpd.send("Status: " .. status_code .. status_message .. "\r\n")
-    uhttpd.send("Content-Type: text/" .. content_type)
+    uhttpd.send("Status: " .. status_code .. " " .. status_message .. "\r\n")
+    uhttpd.send("Content-Type: text/" .. (content_type or "html"))
     uhttpd.send("\r\n\r\n")
     uhttpd.send(content)
 end
