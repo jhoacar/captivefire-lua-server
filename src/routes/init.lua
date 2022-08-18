@@ -1,6 +1,6 @@
 local router = {}
 router.name = "router"
-router.path = "/captivefire/" -- prefix
+router.path = "/" -- prefix
 
 router.before_filter = function(self)
     -- do something before all routes in this app
