@@ -8,15 +8,6 @@
 # https://gist.github.com/braian87b/2333a32577a221c8d62b5ce8b54a4d95
 # ====================================================================================
 
-
-function setPhpIniConfiguration(){
-    sed -i "s/$1 = .*/$1 = $2/" /etc/php.ini
-}
-
-function setPhpIniDocRoot(){
-    setPhpIniConfiguration "doc\_root" " "
-}
-
 function setSSHAcces(){
     uci set dropbear.@dropbear[0].PasswordAuth="0"
     uci set dropbear.@dropbear[0].RootPasswordAuth="0"
