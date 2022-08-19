@@ -5,12 +5,12 @@ local _M = {
     GET = function(self)
 
         return {
-            json = "Estoy en update"
+            json = env.HTTP_AUTHORIZATION or "Estoy en update"
         }
     end,
     POST = function(self)
         return {
-            render = true
+            json = env.HTTP_AUTHORIZATION or "Estoy en update"
         }
     end
 }

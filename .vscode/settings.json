@@ -6,5 +6,6 @@
                 "cmd": "docker exec ${env.CONTAINER_NAME} sh -c 'make && service uhttpd restart'"
             }
         ]
-    }
+    },
+    "editor.detectIndentation": false
 }
