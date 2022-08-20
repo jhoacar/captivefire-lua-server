@@ -1,0 +1,7 @@
+Package: captivefire
+Version: 0.0.1
+Architecture: all
+Maintainer: carrerojhoan@gmail.com
+Description: Captive Portal management
+Priority: optional
+Depends: uhttpd luci luci-ssl lpeg lua-cjson lua-openssl luafilesystem luasocket
