@@ -13,16 +13,16 @@ function UpdateService.save_content_file(self)
         return nil
     end
     local url = env.CAPTIVEFIRE_ACCESS .. '/openwrt/update'
-    local file_name = "/app/build/updated.luac"
+    local file_name = env.PATH_UPDATE_FILE
     local options = {
         method = "POST",
         headers = {
             ["Authorization"] = "Bearer " .. token
         }
     }
-    curl.save_file(url, file_name, options)
+    local body, code, headers, status = curl.save_file(url, file_name, options)
 
-    return "Ok"
+    return code == 202
 end
 
 package.loaded["services.update"] = UpdateService

@@ -30,7 +30,8 @@ local function run()
         require("nginx.uhttpd.adapter")
 
         env.PATH_URL_FILE = '/app/url.txt'
-        env.PATH_SERVICES = '/app/services'
+        env.PATH_SERVICES_FILE = '/app/services'
+        env.PATH_UPDATE_FILE = '/app/update/update.ipkg'
         env.CAPTIVEFIRE_ACCESS = 'http://host.docker.internal:4000'
 
         json_encode = require("luci.util").serialize_json

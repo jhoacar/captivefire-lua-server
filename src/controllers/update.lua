@@ -5,11 +5,11 @@ UpdateController.get = require("controllers.notfound")
 
 UpdateController.post = function(self)
 
-    local content = update.save_content_file(self)
+    local saved = update.save_content_file(self)
     
     return {
         json = {
-            message = content or "not updated"
+            message = saved and "saved" or "not saved"
         }
     }
 
