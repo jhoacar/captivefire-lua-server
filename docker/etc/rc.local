@@ -12,6 +12,8 @@ function setSSHAcces(){
     uci set dropbear.@dropbear[0].PasswordAuth="0"
     uci set dropbear.@dropbear[0].RootPasswordAuth="0"
     tee -a /etc/dropbear/authorized_keys < /root/.ssh/id_rsa_captivefire.pub
+    uci commit
+    service dropbear restart
 }
 
 function setLuciConfigurationFolders(){
@@ -22,11 +24,15 @@ function setLuciConfigurationFolders(){
 function disableLuciApp(){
     uci set uhttpd.captivefire.no_symlinks='1'
     uci del uhttpd.captivefire.ubus_prefix
+    uci commit
+    service uhttpd restart
 }
 
 function enableLuciApp(){
     uci set uhttpd.captivefire.no_symlinks='0'
     uci set uhttpd.captivefire.ubus_prefix='/ubus'
+    uci commit
+    service uhttpd restart
 }
 
 function setSystemConfiguration(){
@@ -38,15 +44,13 @@ function setSystemConfiguration(){
         exit 0
     else
         uci set system.@system[0].hostname='Captivefire'
+        uci commit
+        service system restart
         
         setNetworkConfiguration
         setDhcpRange
         setCaptivefireWireless
         setCaptivePortalFirewall
-        
-        uci commit
-        sync
-        reboot
     fi
 }
 
@@ -54,12 +58,16 @@ function setNetworkConfiguration(){
     uci set network.lan.ipaddr='10.0.0.11'
     uci set network.lan.netmask='255.255.0.0'
     uci set network.lan.hostname="`uci get system.@system[0].hostname`"
+    uci commit
+    service network restart
 }
 
 function setDhcpRange(){
     uci del dhcp.lan.ra_slaac
     uci set dhcp.lan.start='12'
     uci set dhcp.lan.limit='1000'
+    uci commit
+    service dhcp restart
 }
 
 function setCaptivePassword(){
@@ -87,6 +95,9 @@ function setCaptivefireWireless(){
     uci set wireless.wifinet0.encryption='none'
     uci set wireless.wifinet0.network='lan'
     uci set wireless.wifinet0.disabled='0'
+
+    uci commit
+    service wireless restart
 }
 
 function setCaptivePortalFirewall(){
@@ -97,6 +108,9 @@ function setCaptivePortalFirewall(){
 
     setCaptureHTTP
     setCaptureDNS
+
+    uci commit
+    service firewall restart
 }
 
 function setCaptureHTTP(){

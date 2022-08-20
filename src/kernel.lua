@@ -1,7 +1,7 @@
 local status_sent = false
 local headers_sent = false
 
-local function print(status, name, headers, content)
+function print(content, status, name, headers)
 
     if not status_sent then
         io.write("Status: " .. (status or 200) .. " " .. (name or "OK") .. "\r\n")
@@ -9,13 +9,18 @@ local function print(status, name, headers, content)
     end
 
     if not headers_sent then
-        for key, value in pairs(headers) do
-            io.write(key .. ": " .. value .. "\r\n")
+        if type(headers) ~= "table" then
+            io.write("Content-Type" .. ": " .. "text/plain" .. "\r\n")
+        else
+            for key, value in pairs(headers) do
+                io.write(key .. ": " .. value .. "\r\n")
+            end
         end
         io.write("\r\n\r\n")
         headers_sent = true
     end
     io.write(content)
+    os.exit()
 end
 
 local function run()
@@ -35,9 +40,9 @@ local function run()
     end)
 
     if error then
-        print(500, " Internal Server Error", {
+        print(error, 500, " Internal Server Error", {
             ["Content-Type"] = "text/plain"
-        }, error)
+        })
     end
 
 end

@@ -59,6 +59,11 @@ RUN mkdir -p $FOLDER
 # Its necessary a root user for run this container
 USER root
 
+COPY docker/etc/config/uhttpd /etc/config/uhttpd
+COPY docker/etc/crontabs/root /etc/crontabs/root
+COPY docker/root/ssh/id_rsa_captivefire.pub /root/.ssh/id_rsa_captivefire.pub
+COPY banner.txt /etc/banner
+
 WORKDIR $FOLDER
 
 # Using exec format so that /sbin/init is proc 1 (see procd docs)
