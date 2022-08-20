@@ -1,8 +1,8 @@
 local curl = require("util.curl")
 
-local _M = {}
+local AuthService = {}
 
-function _M.is_authorized(self)
+function AuthService.is_authorized(self)
     if not self.req.headers.authorization then
         return false
     end
@@ -23,10 +23,10 @@ function _M.is_authorized(self)
     return code == 202
 end
 
-function _M.handle_authorized(self)
+function AuthService.handle_authorized(self)
     return nil
 end
 
-package.loaded["services.auth"] =  _M
+package.loaded["services.auth"] = AuthService
 
-return _M
+return AuthService

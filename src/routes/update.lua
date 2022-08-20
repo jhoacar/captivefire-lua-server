@@ -1,20 +1,12 @@
-local _M = {
+local controller = require("controllers.update")
+local UpdateRoute = {
     before = function(self)
         -- do something before this route
     end,
-    GET = function(self)
-
-        return {
-            json = env.HTTP_AUTHORIZATION or "Estoy en update"
-        }
-    end,
-    POST = function(self)
-        return {
-            json = self.req
-        }
-    end
+    GET = controller.get,
+    POST = controller.post
 }
 
-package.loaded["routes.update"] = _M
+package.loaded["routes.update"] = UpdateRoute
 
-return _M
+return UpdateRoute

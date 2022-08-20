@@ -7,5 +7,6 @@
             }
         ]
     },
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "luahelper.base.rootdir": "./src"
 }

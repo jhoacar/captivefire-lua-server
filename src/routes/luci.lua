@@ -1,25 +1,13 @@
-local _M = {
+local controller = require("controllers.luci")
+local LuciRoute = {
     before = function(self)
-
+        -- do something before this route
     end,
-    GET = function(self)
-        local luci_url = self.req.parsed_url.scheme .. "://" .. self.req.parsed_url.host .. "/cgi-bin/luci"
-        return {
-            render = false,
-            headers = {
-                ["Location"] = luci_url
-            },
-            status = 302
-        }
-    end,
-    POST = function(self)
-        return {
-            render = true
-        }
-    end
+    GET = controller.get,
+    POST = controller.post
 }
 
-package.loaded["routes.luci"] = _M
+package.loaded["routes.luci"] = LuciRoute
 
-return _M
+return LuciRoute
 

@@ -1,20 +1,12 @@
-local _M = {
+local controller = require("controllers.uci")
+local UciRoute = {
     before = function(self)
         -- do something before this route
     end,
-    GET = function(self)
-
-        return {
-            json = "Estoy en uci"
-        }
-    end,
-    POST = function(self)
-        return {
-            render = true
-        }
-    end
+    GET = controller.get,
+    POST = controller.post
 }
 
-package.loaded["routes.uci"] = _M
+package.loaded["routes.uci"] = UciRoute
 
-return _M
+return UciRoute

@@ -54,7 +54,7 @@ RUN opkg install lpeg lua-cjson lua-openssl luafilesystem luasocket
 ARG FOLDER=/app/
 ENV FOLDER=$FOLDER
 
-RUN mkdir $FOLDER
+RUN mkdir -p $FOLDER
 
 # Its necessary a root user for run this container
 USER root

@@ -1,3 +1,5 @@
+local url = require("util.url")
+local file = require("util.file")
 local portal = require("services.portal")
 local portal_page = [[
 <head>
@@ -9,13 +11,46 @@ local portal_page = [[
 <a href="{{ url }}">Captivefire - Splash Page</a>
 ]]
 
-local _M = function(self)
+local PortalController = {}
+
+function PortalController.get(self)
     local url = portal.get_portal_url()
+    self.res.headers["Content-Type"] = "text/html"
     local page = portal_page:gsub("{{ url }}", url)
     self:write(page)
     return page;
 end
 
-package.loaded["controllers.portal"] = _M
+function PortalController.post(self)
 
-return _M
+    local request_url = self.req.params_post.url
+
+    if not request_url then
+        return {
+            json = {
+                error = "url is missed"
+            },
+            status = 400
+        }
+    end
+    if not url.check_url(request_url) then
+        return {
+            json = {
+                error = "url is incorrect"
+            },
+            status = 400
+        }
+    end
+
+    file.save_file_contents(request_url, env.PATH_URL_FILE)
+
+    return {
+        json = {
+            success = "url updated"
+        }
+    }
+end
+
+package.loaded["controllers.portal"] = PortalController
+
+return PortalController
