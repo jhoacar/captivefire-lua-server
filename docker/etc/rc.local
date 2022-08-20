@@ -21,10 +21,12 @@ function setLuciConfigurationFolders(){
 
 function disableLuciApp(){
     uci set uhttpd.captivefire.no_symlinks='1'
+    uci del uhttpd.captivefire.ubus_prefix
 }
 
 function enableLuciApp(){
     uci set uhttpd.captivefire.no_symlinks='0'
+    uci set uhttpd.captivefire.ubus_prefix='/ubus'
 }
 
 function setSystemConfiguration(){

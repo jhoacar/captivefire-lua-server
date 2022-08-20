@@ -1,13 +1,12 @@
 FROM openwrtorg/rootfs:x86-64
 
-ENV PATH_LIB="/usr/lib/lua"
+ENV PATH_LIB="/app/lua_modules"
 
 # Install Server Dependencies 
 RUN mkdir /var/lock && \
     opkg update && \
     opkg install \
     uhttpd \
-    uhttpd-mod-lua \
     luci \
     luci-ssl
 

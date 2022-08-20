@@ -17,11 +17,12 @@ define Package/captivefire
   SECTION:=network
   CATEGORY:=Network
   TITLE:=Captivefire
+  EXTRA_DEPENDS:=uhttpd uhttpd-mod-lua luci luci-ssl lpeg lua-cjson lua-openssl luafilesystem luasocket 
 endef
 
 # Package description; a more verbose description on what our package does
 define Package/captivefire/description
-Package for enable captive portals using Lua web interface API
+Package for enable captive portals using Lua API Web uHTTTPd
 endef
 
 # Package preparation instructions; create the build directory and copy the source code. 
@@ -32,10 +33,8 @@ define Build/Prepare
 	$(Build/Patch)
 endef
 
-# Package build instructions; invoke the target-specific compiler to first compile the source file, and then to link the file into the final executable
-define Build/Compile
-	$(TARGET_CC) $(TARGET_CFLAGS) -o $(PKG_BUILD_DIR)/captivefire.o -c $(PKG_BUILD_DIR)/captivefire.c
-	$(TARGET_CC) $(TARGET_LDFLAGS) -o $(PKG_BUILD_DIR)/$1 $(PKG_BUILD_DIR)/captivefire.o
+define Build/Configure 
+	
 endef
 
 # Package install instructions; create a directory inside the package to hold our executable, and then copy the executable we built previously into the folder

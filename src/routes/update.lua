@@ -10,7 +10,7 @@ local _M = {
     end,
     POST = function(self)
         return {
-            json = env.HTTP_AUTHORIZATION or "Estoy en update"
+            json = self.req
         }
     end
 }

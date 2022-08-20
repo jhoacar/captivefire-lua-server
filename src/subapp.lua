@@ -1,5 +1,4 @@
 -- https://github.com/VaiN474/lapis-lua-subapps
-
 local lapis = require("lapis")
 local json = require("cjson")
 local app = lapis.Application()
@@ -7,20 +6,15 @@ local respond_to = require("lapis.application").respond_to
 local json_params = function(fn)
     return function(self, ...)
         do
-            local content_type = self.req.headers["content-type"]
-            if content_type then
-                if string.find(content_type:lower(), "application/json", nil, true) then
-                    ngx.req.read_body()
-                    local body = ngx.req.get_body_data()
+            ngx.req.read_body()
+            local body = ngx.req.get_body_data()
 
-                    local success, obj_or_err = pcall(function()
-                        return json.decode(body)
-                    end)
-                    if success then
-                        self.req.params_post = obj_or_err
-                        -- self.__class.support.add_params(self, obj_or_err, "json")
-                    end
-                end
+            local success, obj_or_err = pcall(function()
+                return json.decode(body)
+            end)
+            if success then
+                self.req.params_post = obj_or_err
+                -- self.__class.support.add_params(self, obj_or_err, "json")
             end
         end
         return fn(self, ...)

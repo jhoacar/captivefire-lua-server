@@ -1,22 +1,45 @@
+local status_sent = false
+local headers_sent = false
 
+local function print(status, name, headers, content)
 
-local function run(vars)
-    
-    -- Using this global variable is loaded ngx variable environment
-    env = vars
-    env.PATH_URL_FILE = '/app/url.txt'
-    env.PATH_SERVICES = '/app/services'
-    env.CAPTIVEFIRE_ACCESS = 'http://host.docker.internal:4000'
+    if not status_sent then
+        io.write("Status: " .. (status or 200) .. " " .. (name or "OK") .. "\r\n")
+        status_sent = true
+    end
 
-    json_encode = require("luci.util").serialize_json
-    json_decode = require("cjson").decode
-    
-    local lapis = require("lapis")
+    if not headers_sent then
+        for key, value in pairs(headers) do
+            io.write(key .. ": " .. value .. "\r\n")
+        end
+        io.write("\r\n\r\n")
+        headers_sent = true
+    end
+    io.write(content)
+end
 
-    -- The adapter must be then the require lapis
-    require("nginx.uhttpd.adapter")
+local function run()
 
-    lapis.serve(require("app"))
+    local result, error = pcall(function()
+        local lapis = require("lapis")
+        require("nginx.uhttpd.adapter")
+
+        env.PATH_URL_FILE = '/app/url.txt'
+        env.PATH_SERVICES = '/app/services'
+        env.CAPTIVEFIRE_ACCESS = 'http://host.docker.internal:4000'
+
+        json_encode = require("luci.util").serialize_json
+        json_decode = require("cjson").decode
+
+        lapis.serve(require("app"))
+    end)
+
+    if error then
+        print(500, " Internal Server Error", {
+            ["Content-Type"] = "text/plain"
+        }, error)
+    end
+
 end
 
 package.loaded["kernel"] = run
