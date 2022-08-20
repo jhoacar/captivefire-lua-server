@@ -18,7 +18,9 @@ function PortalController.get(self)
     self.res.headers["Content-Type"] = "text/html"
     local page = portal_page:gsub("{{ url }}", url)
     self:write(page)
-    return page;
+    return {
+        render = false
+    };
 end
 
 function PortalController.post(self)

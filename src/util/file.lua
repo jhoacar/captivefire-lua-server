@@ -20,6 +20,7 @@ function FileUtil.get_file_contents(file_name)
     local file = assert(io.open(file_name, "r"))
     local content = file:read("*all")
     file:close()
+    return content
 end
 
 function FileUtil.save_file_contents(content, file_name)

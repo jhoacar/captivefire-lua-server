@@ -4,8 +4,6 @@ local portal = require("controllers.portal")
 
 local app = require("subapp")
 
-app.title = "Captivefire"
-
 -- Render the view to captive portal
 app:before_filter(function(self)
 

@@ -4,6 +4,7 @@ local LuciController = {}
 
 LuciController.get = function(self)
     local luci_url = self.req.parsed_url.scheme .. "://" .. self.req.parsed_url.host .. "/cgi-bin/luci"
+    self.title = "Captivefire"
     return {
         render = false,
         headers = {

@@ -32,16 +32,18 @@ MAIN_FILES 		:= $(foreach FILE,$(MAIN),$(shell $(SEARCH_FILES) $(FILE).lua))
 MAIN_ROUTE_FILE := $(shell $(subst $(SRC),$(SRC)/routes,$(SEARCH_FILES)) init.lua)
 ALL_LUA_FILES 	:= $(foreach DIRECTORY,$(ALL_FOLDERS),$(shell $(subst $(SRC),$(SRC)/$(DIRECTORY),$(SEARCH_FILES)) *.lua ! -name 'init.lua'))
 
-.PHONY: info build
+
 
 ########################################################
 ### BUILD PROCESS
+.PHONY: build
 build:
 	$(COMPILER) -o $(APP) $(ALL_LUA_FILES) $(MAIN_ROUTE_FILE) $(MAIN_FILES)
 ########################################################
 
 ########################################################
 ### SHOW INFO
+.PHONY: info
 info:
 	$(info $(MAIN_FILES) $(MAIN_ROUTE_FILE) $(ALL_LUA_FILES))
 ########################################################

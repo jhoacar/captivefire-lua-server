@@ -1,19 +1,18 @@
+local update = require("services.update")
 local UpdateController = {}
 
-UpdateController.get = function(self)
-    return {
-        json = {
-            message = "Get Update"
-        }
-    }
-end
+UpdateController.get = require("controllers.notfound")
 
 UpdateController.post = function(self)
+
+    local content = update.save_content_file(self)
+    
     return {
         json = {
-            message = "Post Update"
+            message = content or "not updated"
         }
     }
+
 end
 
 package.loaded["controllers.update"] = UpdateController
