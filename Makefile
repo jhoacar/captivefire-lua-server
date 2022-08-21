@@ -3,7 +3,7 @@
 
 ##########################################################
 ### CONFIGURATION 
-VERSION		:= 0.0.2
+VERSION		:= 0.0.1
 APP 		:= bin/captivefire.luac
 SRC 		:= src
 COMPILER 	:= luac
@@ -81,11 +81,11 @@ endef
 define BuildPackage
 	cd $(PKG_CONTROL) && tar --numeric-owner --group=0 --owner=0 -czf ../control.tar.gz ./*
 	
-	cd $(PKG_DATA) && tar --numeric-owner --group=0 --owner=0 -czf ../data.tar.gz ./
+	cd $(PKG_DATA) && tar --numeric-owner --group=0 --owner=0 -czf ../data.tar.gz ./*
 	
 	cd $(PKG_FOLDER) && echo 2.0 > debian-binary
 	
-	tar --numeric-owner --group=0 --owner=0 -czf $(PACKAGE) $(PKG_FOLDER)/debian-binary $(PKG_FOLDER)/control.tar.gz $(PKG_FOLDER)/data.tar.gz
+	cd $(PKG_FOLDER) && tar --numeric-owner --group=0 --owner=0 -czf ../$(PACKAGE) ./debian-binary ./control.tar.gz ./data.tar.gz
 endef
 
 define ClearPkg
