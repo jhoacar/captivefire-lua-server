@@ -1,2 +1,2 @@
-loadfile('/app/build/captivefire.luac')()
+loadfile('/app/bin/captivefire.luac')()
 require('kernel')()
