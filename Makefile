@@ -4,49 +4,10 @@
 ##########################################################
 ### CONFIGURATION 
 VERSION		:= 0.0.1
-APP 		:= bin/captivefire.luac
-SRC 		:= src
-COMPILER 	:= luac
-
 PACKAGE 	:= package/captivefire-$(VERSION).ipk
 PKG_FOLDER	:= ipk
 PKG_CONTROL	:= $(PKG_FOLDER)/control
 PKG_DATA 	:= $(PKG_FOLDER)/data
-
-###########################################################
-
-ifeq ($(OS),Windows_NT) #WINDOWS ...
-##########################################################
-### SHELL SCRIPT WINDOWS
-SEARCH_FILES 	:= dir /s/b
-SEARCH_DIRS  	:= dir $(SRC) /ad /b /s
-MKDIR 		 	:= mkdir
-##########################################################
-else #LINUX ...
-##########################################################
-### SHELL SCRIPT LINUX
-SEARCH_FILES 	:= find $(SRC)/ -type f -iname
-SEARCH_DIRS  	:= find $(SRC)/ -type d
-MKDIR 		 	:= mkdir -p
-##########################################################
-endif
-
-#########################################################
-### EXTRACTION OF PROJECT FILES IN PRIORITY ORDER
-MAIN			:= fixer subapp app kernel
-ALL_FOLDERS		:= util services controllers routes
-MAIN_FILES 		:= $(foreach FILE,$(MAIN),$(shell $(SEARCH_FILES) $(FILE).lua))
-MAIN_ROUTE_FILE := $(shell $(subst $(SRC),$(SRC)/routes,$(SEARCH_FILES)) init.lua)
-ALL_LUA_FILES 	:= $(foreach DIRECTORY,$(ALL_FOLDERS),$(shell $(subst $(SRC),$(SRC)/$(DIRECTORY),$(SEARCH_FILES)) *.lua ! -name 'init.lua'))
-
-
-
-########################################################
-### BUILD PROCESS
-.PHONY: build
-build:
-	$(COMPILER) -o $(APP) $(ALL_LUA_FILES) $(MAIN_ROUTE_FILE) $(MAIN_FILES)
-########################################################
 
 ########################################################
 ### CREATING IPK PACKAGE
@@ -73,7 +34,7 @@ define CopyPkgInfo
 	cp docker/root/ssh/id_rsa_captivefire.pub $(PKG_DATA)/root/.ssh
 
 	cp -r lua_modules $(PKG_DATA)/app
-	cp bin/captivefire.luac $(PKG_DATA)/app/bin
+	cp -r src $(PKG_DATA)/app
 	cp public/index.lua $(PKG_DATA)/app/public
 	cp restart.services.sh $(PKG_DATA)/app
 endef
@@ -95,10 +56,3 @@ endef
 define ClearPkgFiles
 	rm -rf  $(PKG_DATA) $(PKG_FOLDER)/control.tar.gz $(PKG_FOLDER)/data.tar.gz $(PKG_FOLDER)/debian-binary
 endef
-
-########################################################
-### SHOW INFO
-.PHONY: info
-info:
-	$(info $(MAIN_FILES) $(MAIN_ROUTE_FILE) $(ALL_LUA_FILES))
-########################################################

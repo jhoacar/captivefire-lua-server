@@ -4,4 +4,4 @@ Architecture: all
 Maintainer: carrerojhoan@gmail.com
 Description: Captive Portal management
 Priority: optional
-Depends: uhttpd, luci, luci-ssl, lpeg, lua-cjson, lua-openssl, luafilesystem, luasocket, luac, make
+Depends: uhttpd, luci, luci-ssl, lpeg, lua-cjson, lua-openssl, luasocket

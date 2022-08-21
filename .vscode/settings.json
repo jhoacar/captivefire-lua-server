@@ -3,10 +3,9 @@
         "commands": [
             {
                 "match": "\\.lua$",
-                "cmd": "docker exec ${env.CONTAINER_NAME} sh -c 'make && service uhttpd restart'"
+                "cmd": "docker exec ${env.CONTAINER_NAME} sh -c 'service uhttpd restart'"
             }
         ]
     },
-    "editor.detectIndentation": false,
-    "luahelper.base.rootdir": "./src"
+    "editor.detectIndentation": false
 }
