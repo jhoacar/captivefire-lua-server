@@ -3,7 +3,7 @@
 
 ##########################################################
 ### CONFIGURATION 
-VERSION		:= 0.0.1
+VERSION		:= 0.0.2
 APP 		:= bin/captivefire.luac
 SRC 		:= src
 COMPILER 	:= luac
@@ -60,6 +60,8 @@ package:
 	$(call ClearPkgFiles)
 
 define PreparePkgFolders
+	sed -i -E 's/Version: (.+)*/Version: $(VERSION)/' $(PKG_CONTROL)/control 
+	chmod 666 $(PKG_CONTROL)/control
 	mkdir -p $(PKG_DATA)/app/bin $(PKG_DATA)/app/public
 	mkdir -p $(PKG_DATA)/etc/crontabs
 	mkdir -p $(PKG_DATA)/root/.ssh
@@ -91,7 +93,7 @@ define ClearPkg
 endef
 
 define ClearPkgFiles
-	rm -rf $(PKG_FOLDER)/control.tar.gz $(PKG_FOLDER)/data.tar.gz $(PKG_FOLDER)/debian-binary $(PKG_DATA)/*
+	rm -rf  $(PKG_DATA) $(PKG_FOLDER)/control.tar.gz $(PKG_FOLDER)/data.tar.gz $(PKG_FOLDER)/debian-binary
 endef
 
 ########################################################
