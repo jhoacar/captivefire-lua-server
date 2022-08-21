@@ -2,4 +2,6 @@
 
 set -eux
 
+mv /app/uhttpd /etc/config/uhttpd
+
 echo "Post instalation"
