@@ -34,8 +34,9 @@ define CopyPkgInfo
 	cp docker/etc/crontabs/* $(PKG_DATA)/etc/crontabs
 	cp docker/root/ssh/*.pub $(PKG_DATA)/root/.ssh
 	cp docker/usr/bin/* $(PKG_DATA)/usr/bin
-	cp docker/etc/banner $(PKG_DATA)/etc/banner
-	cp docker/etc/rc.local $(PKG_DATA)/etc/rc.local
+	cp docker/etc/banner $(PKG_DATA)/app/banner
+	
+	cp $(PKG_CONTROL)/postinst $(PKG_DATA)/app/rc.local
 
 	cp -r lua_modules $(PKG_DATA)/app
 	cp -r src $(PKG_DATA)/app
