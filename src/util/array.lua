@@ -1,5 +1,5 @@
-local _M = {}
-function _M.map(tbl, fn)
+local ArrayUtil = {}
+function ArrayUtil.map(tbl, fn)
     local t = {}
     for k, v in pairs(tbl) do
         t[k] = fn(v)
@@ -7,7 +7,7 @@ function _M.map(tbl, fn)
     return t
 end
 
-function _M.filter(t, fn)
+function ArrayUtil.filter(t, fn)
     local out = {}
   
     for k, v in pairs(t) do
@@ -17,9 +17,7 @@ function _M.filter(t, fn)
     return out
   end
 
-table.map = _M.map
-table.filter = _M.filter
+table.map = ArrayUtil.map
+table.filter = ArrayUtil.filter
 
-package.loaded["util.array"] =  _M
-
-return _M
+return ArrayUtil

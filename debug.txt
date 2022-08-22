@@ -1,0 +1,192 @@
+Installing coreutils-chown (9.1-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/packages/coreutils-chown_9.1-1_x86_64.ipk
+Installing coreutils (9.1-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/packages/coreutils_9.1-1_x86_64.ipk
+Configuring coreutils.
+Configuring coreutils-chown.
+Installing captivefire (0.0.1) to root...
+Installing uhttpd (2022-06-01-d59d732a-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/uhttpd_2022-06-01-d59d732a-1_x86_64.ipk
+Installing uhttpd-mod-ubus (2022-06-01-d59d732a-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/uhttpd-mod-ubus_2022-06-01-d59d732a-1_x86_64.ipk
+Installing liblua5.1.5 (5.1.5-10) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/liblua5.1.5_5.1.5-10_x86_64.ipk
+Installing lua (5.1.5-10) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/lua_5.1.5-10_x86_64.ipk
+Installing luci-lib-nixio (git-22.222.71555-88b9088) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-lib-nixio_git-22.222.71555-88b9088_x86_64.ipk
+Installing luci-lib-ip (git-20.250.76529-62505bd) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-lib-ip_git-20.250.76529-62505bd_x86_64.ipk
+Installing rpcd (2022-05-31-1c482573-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/rpcd_2022-05-31-1c482573-1_x86_64.ipk
+Installing libubus-lua (2022-06-01-2bebf93c-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/libubus-lua_2022-06-01-2bebf93c-1_x86_64.ipk
+Installing luci-lib-jsonc (git-22.079.54693-45f411b) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-lib-jsonc_git-22.079.54693-45f411b_x86_64.ipk
+Installing liblucihttp0 (2022-07-08-6e68a106-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/liblucihttp0_2022-07-08-6e68a106-1_x86_64.ipk
+Installing liblucihttp-lua (2022-07-08-6e68a106-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/liblucihttp-lua_2022-07-08-6e68a106-1_x86_64.ipk
+Installing luci-lib-base (git-20.232.39649-1f6dc29) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-lib-base_git-20.232.39649-1f6dc29_all.ipk
+Installing rpcd-mod-file (2022-05-31-1c482573-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/rpcd-mod-file_2022-05-31-1c482573-1_x86_64.ipk
+Installing rpcd-mod-luci (20210614) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/rpcd-mod-luci_20210614_x86_64.ipk
+Installing cgi-io (2022-08-10-901b0f04-21) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/packages/cgi-io_2022-08-10-901b0f04-21_x86_64.ipk
+Installing luci-base (git-22.213.35850-abd9125) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-base_git-22.213.35850-abd9125_x86_64.ipk
+Installing libiwinfo-data (2022-08-19-0dad3e66-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/libiwinfo-data_2022-08-19-0dad3e66-1_x86_64.ipk
+Installing libiwinfo20210430 (2022-08-19-0dad3e66-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/libiwinfo20210430_2022-08-19-0dad3e66-1_x86_64.ipk
+Installing libiwinfo-lua (2022-08-19-0dad3e66-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/libiwinfo-lua_2022-08-19-0dad3e66-1_x86_64.ipk
+Installing luci-mod-status (git-22.186.43238-88c62fe) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-mod-status_git-22.186.43238-88c62fe_x86_64.ipk
+Installing luci-mod-system (git-22.217.39490-d4330a5) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-mod-system_git-22.217.39490-d4330a5_all.ipk
+Installing rpcd-mod-iwinfo (2022-05-31-1c482573-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/rpcd-mod-iwinfo_2022-05-31-1c482573-1_x86_64.ipk
+Installing luci-mod-network (git-22.208.56039-801d451) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-mod-network_git-22.208.56039-801d451_all.ipk
+Installing luci-mod-admin-full (git-19.253.48496-3f93650) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-mod-admin-full_git-19.253.48496-3f93650_all.ipk
+Installing luci-theme-bootstrap (git-22.175.85350-d4c4afe) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-theme-bootstrap_git-22.175.85350-d4c4afe_all.ipk
+Installing luci-app-firewall (git-22.089.67453-0eb3aeb) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-app-firewall_git-22.089.67453-0eb3aeb_all.ipk
+Installing luci-app-opkg (git-22.213.50348-43cea79) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-app-opkg_git-22.213.50348-43cea79_all.ipk
+Installing luci-proto-ppp (git-21.158.38888-88b9d84) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-proto-ppp_git-21.158.38888-88b9d84_all.ipk
+Installing luci-proto-ipv6 (git-21.148.48881-79947af) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-proto-ipv6_git-21.148.48881-79947af_all.ipk
+Installing rpcd-mod-rrdns (20170710) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/rpcd-mod-rrdns_20170710_x86_64.ipk
+Installing luci (git-20.074.84698-ead5e81) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci_git-20.074.84698-ead5e81_all.ipk
+Installing px5g-wolfssl (4) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/px5g-wolfssl_4_x86_64.ipk
+Installing luci-ssl (git-20.244.36115-e10f954) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/luci/luci-ssl_git-20.244.36115-e10f954_all.ipk
+Installing lpeg (1.0.2-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/packages/lpeg_1.0.2-1_x86_64.ipk
+Installing lua-cjson (2.1.0-2) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/packages/lua-cjson_2.1.0-2_x86_64.ipk
+Installing libopenssl1.1 (1.1.1q-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/base/libopenssl1.1_1.1.1q-1_x86_64.ipk
+Installing lua-openssl (0.8.2-1-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/packages/lua-openssl_0.8.2-1-1_x86_64.ipk+ echo 'Pre instalation'
+Pre instalation
+4+0 records in
+4+0 records out
+Generating EC private key
+Generating selfsigned certificate with subject '/C=ZZ/ST=Somewhere/L=Unknown/O=OpenWrta11e16e7/CN=OpenWrt' and validity 20220821231739-20240820231739
+/luci-static/bootstrap
+
+Installing luasocket (3.0.0-1) to root...
+Downloading https://downloads.openwrt.org/snapshots/packages/x86_64/packages/luasocket_3.0.0-1_x86_64.ipk
+Configuring liblucihttp0.
+Configuring cgi-io.
+Configuring liblua5.1.5.
+Configuring lua.
+Configuring luci-lib-nixio.
+Configuring luci-lib-ip.
+Configuring luci-lib-jsonc.
+Configuring liblucihttp-lua.
+Configuring luci-lib-base.
+Configuring luci-app-opkg.
+Configuring rpcd.
+Configuring libubus-lua.
+Configuring libiwinfo-data.
+Configuring libiwinfo20210430.
+Configuring libiwinfo-lua.
+Configuring rpcd-mod-file.
+Configuring rpcd-mod-luci.
+Configuring luci-base.
+Configuring luci-mod-system.
+Configuring uhttpd.
+Configuring uhttpd-mod-ubus.
+Configuring luci-mod-status.
+Configuring rpcd-mod-iwinfo.
+Configuring luci-mod-network.
+Configuring luci-mod-admin-full.
+Configuring luci-theme-bootstrap.
+Configuring luci-app-firewall.
+Configuring luci-proto-ppp.
+Configuring luci-proto-ipv6.
+Configuring rpcd-mod-rrdns.
+Configuring luci.
+Configuring px5g-wolfssl.
+Configuring luci-ssl.
+Configuring + mv /app/uhttpd /etc/config/uhttpd
++ setLuciConfigurationFolders
++ ln -s /www/cgi-bin /app/public/cgi-bin
++ ln -s /www/luci-static /app/public/luci-static
++ setSSHAcces
++ uci set 'dropbear.@dropbear[0].PasswordAuth=0'
++ uci set 'dropbear.@dropbear[0].RootPasswordAuth=0'
++ tee -a /etc/dropbear/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDkXSHTYHddY7AJ+wJhblkNt2tsHOYezm3RibfMPgMEAEKMVblrC2IQZmSmDSovWr1/A8l7oKVT4JaXksHspn2uykWR2ctMt5tRS7620zD7slcu8DB0ltv1zU5CATPCyg0EZrYXajnVSInqNWreAj/mOyktkjJu7hYuZONPKSnP634aHmhA+dsqfDDm3xjql+YWok4OFbvL67GV1cGV7aUKVPPP48GT2CyZNYuFR++Z2kdtMpSzsqZLZ0HO0bO3fTwYt7MQYVFwPVWUjgU1OS56rDMRyjK762bRhvuXPXDlvtgZtUNNzwIqtgOcrkEe4YLdNE2YX6Nc4CF9F2dajfSIOf3m9yRpne+mnG9k1wBSb4iK7TEDbM/UndzSyPAB6UkpjkSJikMTKrBw2mDYqYQ4U5WWdASXJ8S+as5NoVIkVNwQaUOTc4/Hm4HkZffK39GLH9PNHnTQSzwzXIBBK08l+WWqAGSfbUkyOVGQxyPPuLlHonwwUhbQZb1lBcupCUE= jhoacar@jhoacar
++ uci commit
++ echo dropbear
++ setCaptivePassword
++ passwd+ 
+echo -e 'Captivefire\nCaptivefire'
+Changing password for root
+New password: 
+Retype password: 
+passwd: password for root changed by root
++ setSystemConfiguration
++ uci get 'system.@system[0].hostname'
++ HOSTNAME=OpenWrt
++ '[' OpenWrt '=' Captivefire ]
++ uci set 'system.@system[0].hostname=Captivefire'
++ uci commit
++ echo system
++ setNetworkConfiguration
++ uci show network.lan
+uci: Entry not found
++ setDhcpRange
++ uci del dhcp.lan.ra_slaac
++ uci set 'dhcp.lan.start=12'
++ uci set 'dhcp.lan.limit=1000'
++ uci commit
++ echo dhcp
++ uci show wireless
+uci: Entry not found
++ setCaptivePortalFirewall
++ uci show 'firewall.@redirect[-1]'
+uci: Entry not found
++ uci show network.lan
+uci: Entry not found
++ uci commit
++ echo firewall
++ removeCertificates
++ rm /etc/uhttpd.crt /etc/uhttpd.key
++ disableLuciApp
++ uci set 'uhttpd.captivefire.no_symlinks=1'
++ uci del uhttpd.captivefire.ubus_prefix
++ uci commit
++ echo uhttpd
++ service cron stop
++ service cron start
+Collected errors:
+ * pkg_hash_check_unresolved: cannot find dependency kernel (= 5.10.136-1-f37b15cceba2187f40d81d8285a3a0e1) for kmod-nf-reject
+ * pkg_hash_check_unresolved: cannot find dependency kernel (= 5.10.136-1-f37b15cceba2187f40d81d8285a3a0e1) for kmod-nf-reject6
+ * pkg_hash_check_unresolved: cannot find dependency kernel (= 5.10.136-1-f37b15cceba2187f40d81d8285a3a0e1) for kmod-nf-log
+ * pkg_hash_check_unresolved: cannot find dependency kernel (= 5.10.136-1-f37b15cceba2187f40d81d8285a3a0e1) for kmod-nf-log6
+ * pkg_hash_check_unresolved: cannot find dependency kernel (= 5.10.136-1-f37b15cceba2187f40d81d8285a3a0e1) for kmod-crypto-crc32c
+ * pkg_hash_check_unresolved: cannot find dependency kernel (= 5.10.136-1-f37b15cceba2187f40d81d8285a3a0e1) for kmod-nft-core
+ * pkg_hash_check_unresolved: cannot find dependency kernel (= 5.10.136-1-f37b15cceba2187f40d81d8285a3a0e1) for kmod-nf-flow
+ * pkg_hash_check_unresolved: cannot find dependency kernel (= 5.10.136-1-f37b15cceba2187f40d81d8285a3a0e1) for kmod-nf-ipt
+ * pkg_hash_check_unresolved: cannot find dependency kernel (= 5.10.136-1-f37b15cceba2187f40d81d8285a3a0e1) for kmod-ipt-core
+lpeg.
+Configuring lua-cjson.
+Configuring libopenssl1.1.
+Configuring lua-openssl.
+Configuring luasocket.
+Configuring captivefire.
+done

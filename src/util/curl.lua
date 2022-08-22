@@ -1,9 +1,9 @@
 local http = require("socket.http")
 local ltn12 = require("ltn12")
 
-local _M = {}
+local CurlUtil = {}
 
-function _M.fetch(url, options)
+function CurlUtil.fetch(url, options)
     if not url then
         return nil
     end
@@ -24,7 +24,7 @@ function _M.fetch(url, options)
     }
 end
 
-function _M.save_file(url, file_name, options)
+function CurlUtil.save_file(url, file_name, options)
     if not url then
         return nil
     end
@@ -32,7 +32,7 @@ function _M.save_file(url, file_name, options)
         return nil
     end
     local method = options.method or "GET"
-    local sink = ltn12.sink.file(io.open(file_name,"wb"))
+    local sink = ltn12.sink.file(io.open(file_name, "wb"))
     local reqbody = type(options.body) == "string" and options.body or ""
     local headers = type(options.headers) == "table" and options.headers or {}
 
@@ -45,6 +45,4 @@ function _M.save_file(url, file_name, options)
     }
 end
 
-package.loaded["util.curl"] = _M
-
-return _M
+return CurlUtil

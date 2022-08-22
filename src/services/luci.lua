@@ -18,6 +18,4 @@ LuciService.disable = function()
     return "Luci had been disabled successfully"
 end
 
-package.loaded["services.luci"] = LuciService
-
 return LuciService

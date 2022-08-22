@@ -48,6 +48,4 @@ local function run()
 
 end
 
-package.loaded["kernel"] = run
-
 return run

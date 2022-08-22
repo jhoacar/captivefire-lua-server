@@ -29,6 +29,4 @@ function AuthService.handle_authorized(self)
     return nil
 end
 
-package.loaded["services.auth"] = AuthService
-
 return AuthService

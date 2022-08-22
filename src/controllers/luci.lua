@@ -30,11 +30,10 @@ LuciController.post = function(self)
 
     return {
         json = {
-            message = result
+            message = result,
+            enabled = enable
         }
     }
 end
-
-package.loaded["controllers.luci"] = LuciController
 
 return LuciController

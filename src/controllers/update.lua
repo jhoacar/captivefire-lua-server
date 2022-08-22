@@ -9,12 +9,11 @@ UpdateController.post = function(self)
     
     return {
         json = {
-            message = saved and "saved" or "not saved"
+            message = saved and "saved" or "not saved",
+            updated = saved
         }
     }
 
 end
-
-package.loaded["controllers.update"] = UpdateController
 
 return UpdateController

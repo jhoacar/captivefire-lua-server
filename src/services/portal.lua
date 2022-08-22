@@ -6,6 +6,4 @@ function PortalService.get_portal_url()
     return status and url or "https://www.captivefire.net"
 end
 
-package.loaded["services.portal"] = PortalService
-
 return PortalService

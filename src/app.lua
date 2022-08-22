@@ -26,6 +26,4 @@ function app:handle_404()
     return notfound(self)
 end
 
-package.loaded["app"] = app
-
 return app

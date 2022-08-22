@@ -13,6 +13,4 @@ UciController.post = function(self)
     }
 end
 
-package.loaded["controllers.uci"] = UciController
-
 return UciController

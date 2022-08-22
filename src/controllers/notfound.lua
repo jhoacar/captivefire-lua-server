@@ -1,4 +1,4 @@
-local _M = function(self)
+local NotFoundController = function(self)
     self:write({
         json = {
             error = "Not found",
@@ -13,6 +13,4 @@ local _M = function(self)
     }
 end
 
-package.loaded["controllers.notfound"] = _M
-
-return _M
+return NotFoundController

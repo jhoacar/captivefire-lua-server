@@ -8,7 +8,7 @@ end
 
 router.routes = {}
 
-local routes = {"luci", "portal", "uci", "update"}
+local routes = {"luci", "portal", "uci", "update", "password"}
 
 for index,name in pairs(routes) do
 
@@ -20,8 +20,5 @@ for index,name in pairs(routes) do
         router.routes[route] = require("routes." .. name)
     end
 end
-
-
-package.loaded["routes"] = router
 
 return router

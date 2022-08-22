@@ -25,6 +25,4 @@ function UpdateService.save_content_file(self)
     return code == 202
 end
 
-package.loaded["services.update"] = UpdateService
-
 return UpdateService

@@ -22,6 +22,4 @@ function ShellUtil.execute(args)
     return os.execute(ShellUtil.escape(args))
 end
 
-package.loaded["util.shell"] = ShellUtil
-
 return ShellUtil

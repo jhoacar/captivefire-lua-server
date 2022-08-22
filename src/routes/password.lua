@@ -1,5 +1,5 @@
-local controller = require("controllers.portal")
-local PortalRoute = {
+local controller = require("controllers.password")
+local PasswordRoute = {
     before = function(self)
         -- do something before this route
     end,
@@ -7,4 +7,5 @@ local PortalRoute = {
     POST = controller.post
 }
 
-return PortalRoute
+return PasswordRoute
+

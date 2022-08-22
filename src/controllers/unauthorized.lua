@@ -1,4 +1,4 @@
-local _M = function(self)
+local UnauthorizedController = function(self)
     self:write({
         json = {
             error = "You don't have access"
@@ -13,6 +13,4 @@ local _M = function(self)
     }
 end
 
-package.loaded["controllers.unauthorized"] = _M
-
-return _M
+return UnauthorizedController

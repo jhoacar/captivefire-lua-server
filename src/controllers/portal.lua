@@ -53,6 +53,4 @@ function PortalController.post(self)
     }
 end
 
-package.loaded["controllers.portal"] = PortalController
-
 return PortalController

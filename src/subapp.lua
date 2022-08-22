@@ -81,6 +81,4 @@ function app:include(app_path)
 
 end
 
-package.loaded["subapp"] = app
-
 return app

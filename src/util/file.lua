@@ -29,6 +29,4 @@ function FileUtil.save_file_contents(content, file_name)
     file:close()
 end
 
-package.loaded["util.file"] = FileUtil
-
 return FileUtil

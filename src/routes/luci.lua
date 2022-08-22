@@ -7,7 +7,5 @@ local LuciRoute = {
     POST = controller.post
 }
 
-package.loaded["routes.luci"] = LuciRoute
-
 return LuciRoute
 

@@ -7,6 +7,4 @@ local UciRoute = {
     POST = controller.post
 }
 
-package.loaded["routes.uci"] = UciRoute
-
 return UciRoute

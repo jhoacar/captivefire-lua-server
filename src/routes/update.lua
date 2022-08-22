@@ -7,6 +7,4 @@ local UpdateRoute = {
     POST = controller.post
 }
 
-package.loaded["routes.update"] = UpdateRoute
-
 return UpdateRoute
