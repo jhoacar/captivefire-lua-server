@@ -32,6 +32,7 @@ services:
       - '${APP_HTTPS_PORT:-443}:443' # HTTPS Captivefire
     volumes:
       - ./docker/entrypoint.sh:/etc/rc.local
+      - ./docker/usr/bin/captivefire:/usr/bin/captivefire
       - .:/app
     extra_hosts:
       - "host.docker.internal:host-gateway"

@@ -26,18 +26,20 @@ define PreparePkgFolders
 	mkdir -p $(PKG_DATA)/app/bin $(PKG_DATA)/app/public
 	mkdir -p $(PKG_DATA)/etc/crontabs
 	mkdir -p $(PKG_DATA)/root/.ssh
+	mkdir -p $(PKG_DATA)/usr/bin
 endef
 
 define CopyPkgInfo
-	cp docker/etc/config/* $(PKG_DATA)/app
+	cp docker/etc/config/uhttpd $(PKG_DATA)/app
 	cp docker/etc/crontabs/* $(PKG_DATA)/etc/crontabs
 	cp docker/root/ssh/*.pub $(PKG_DATA)/root/.ssh
-	cp docker/usr/bin/captivefire $(PKG_DATA)/usr/bin/captivefire
+	cp docker/usr/bin/* $(PKG_DATA)/usr/bin
+	cp docker/etc/banner $(PKG_DATA)/etc/banner
+	cp docker/etc/rc.local $(PKG_DATA)/etc/rc.local
 
 	cp -r lua_modules $(PKG_DATA)/app
 	cp -r src $(PKG_DATA)/app
 	cp public/index.lua $(PKG_DATA)/app/public
-	cp restart.services.sh $(PKG_DATA)/app
 endef
 
 define BuildPackage
