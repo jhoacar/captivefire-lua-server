@@ -23,20 +23,24 @@ package:
 define PreparePkgFolders
 	sed -i -E 's/Version: (.+)*/Version: $(VERSION)/' $(PKG_CONTROL)/control 
 	chmod 666 $(PKG_CONTROL)/control
-	mkdir -p $(PKG_DATA)/app/bin $(PKG_DATA)/app/public
+	mkdir -p $(PKG_DATA)/app/public
 	mkdir -p $(PKG_DATA)/etc/crontabs
 	mkdir -p $(PKG_DATA)/root/.ssh
 	mkdir -p $(PKG_DATA)/usr/bin
 endef
 
 define CopyPkgInfo
+	
 	cp docker/etc/config/uhttpd $(PKG_DATA)/app
-	cp docker/etc/crontabs/* $(PKG_DATA)/etc/crontabs
-	cp docker/root/ssh/*.pub $(PKG_DATA)/root/.ssh
-	cp docker/usr/bin/* $(PKG_DATA)/usr/bin
-	cp docker/etc/banner $(PKG_DATA)/app/banner
+	cp docker/etc/banner $(PKG_DATA)/app
 	
 	cp $(PKG_CONTROL)/postinst $(PKG_DATA)/app/rc.local
+
+	cp docker/etc/crontabs/* $(PKG_DATA)/etc/crontabs
+	
+	cp docker/root/ssh/*.pub $(PKG_DATA)/root/.ssh
+	
+	cp docker/usr/bin/* $(PKG_DATA)/usr/bin
 
 	cp -r lua_modules $(PKG_DATA)/app
 	cp -r src $(PKG_DATA)/app

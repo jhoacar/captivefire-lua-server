@@ -2,42 +2,62 @@
 
 set -ux
 
-UHTTPD_CONFIG="/app/uhttpd"
-BANNER_FILE="/app/banner"
-RC_LOCAL_FILE="/app/rc.local"
+# Check if is in relative path or absolute
+if pwd | grep /home/build/openwrt/build_dir/target-*/root-*
+then
+    # If it is in firmware builder
+    PREFIX="$(pwd)/"
+else
+    # If it is in system
+    PREFIX="/"
+fi
 
-# Check if rc.local file is in the app and it's an old rc.local
-find "$RC_LOCAL_FILE" && ! grep captivefire /etc/rc.local && \
-    mv $RC_LOCAL_FILE /etc/rc.local
+PATH_APP="$PREFIX""app"
+PATH_ETC="$PREFIX""etc"
+PATH_BIN="$PREFIX""usr/bin"
+
+SRC_UHTTPD_CONFIG="$PATH_APP""/uhttpd"
+DST_UHTTPD_CONFIG="$PATH_ETC""/config/uhttpd"
+
+SRC_BANNER_FILE="$PATH_APP""/banner"
+DST_BANNER_FILE="$PATH_ETC""/banner"
+
+SRC_RC_LOCAL_FILE="$PATH_APP""/rc.local"
+DST_RC_LOCAL_FILE="$PATH_ETC""/rc.local"
+
+BIN_CAPTIVEFIRE="$PATH_BIN""/captivefire"
+BIN_CRON_SERVICE="$PATH_ETC""/init.d/cron"
 
 # Check if exits a banner file
-find "$BANNER_FILE" && \
-    cat $BANNER_FILE >> /etc/banner && \
-    rm $BANNER_FILE
+find "$SRC_BANNER_FILE" && \
+    cat $SRC_BANNER_FILE >> $DST_BANNER_FILE && \
+    rm $SRC_BANNER_FILE
+
+find "$SRC_RC_LOCAL_FILE" && \
+    mv $SRC_RC_LOCAL_FILE $DST_RC_LOCAL_FILE
 
 # If not exists file uhttpd config so
 # The file was moved before or
 # The firmware is building
-! find "$UHTTPD_CONFIG" && exit 0
+! find "$SRC_UHTTPD_CONFIG" && exit 0
 
 # Check if binary its installed
-! which captivefire && exit 0
+! find "$BIN_CAPTIVEFIRE" && exit 0
 
 # Added uhttpd configuration
-mv $UHTTPD_CONFIG /etc/config/uhttpd
+mv $SRC_UHTTPD_CONFIG $DST_UHTTPD_CONFIG
 
+eval $BIN_CAPTIVEFIRE set_luci_configuration
+eval $BIN_CAPTIVEFIRE set_ssh_access
+eval $BIN_CAPTIVEFIRE set_captive_password
+eval $BIN_CAPTIVEFIRE set_system_config
+eval $BIN_CAPTIVEFIRE set_network_config
+eval $BIN_CAPTIVEFIRE set_dhcp_range
+eval $BIN_CAPTIVEFIRE set_captive_portal_firewall
+eval $BIN_CAPTIVEFIRE set_captive_wireless
+eval $BIN_CAPTIVEFIRE disable_luci
+eval $BIN_CAPTIVEFIRE remove_certificates
 
-captivefire set_luci_configuration
-captivefire set_ssh_access
-captivefire set_captive_password
-captivefire set_system_config
-captivefire set_network_config
-captivefire set_dhcp_range
-captivefire set_captive_portal_firewall
-captivefire set_captive_wireless
-captivefire disable_luci
-captivefire remove_certificates
-
-service cron start
+eval $BIN_CRON_SERVICE start
 
 exit 0

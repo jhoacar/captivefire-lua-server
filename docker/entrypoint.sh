@@ -2,7 +2,7 @@
 
 set -x
 
-logread -f > /app/debug.txt &
+logread -f | strings > /app/debug.txt &
 
 opkg update 
 opkg install coreutils-chown
