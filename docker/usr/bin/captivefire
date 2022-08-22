@@ -1,0 +1,225 @@
+#!/bin/sh
+
+set -xeu
+
+set_ssh_access(){    
+    if ! uci show dropbear.@dropbear[0]
+    then
+        exit 0
+    fi
+    
+    uci set dropbear.@dropbear[0].PasswordAuth="0"
+    uci set dropbear.@dropbear[0].RootPasswordAuth="0"
+    RSA_PUB=$( find /root -iname "*.pub" )
+    [ ! -z "$RSA_PUB" ] && tee -a /etc/dropbear/authorized_keys < $RSA_PUB
+    uci commit
+    echo "dropbear" >> /app/services
+    
+    exit 0
+}
+
+set_luci_configuration(){
+    if [ ! -d "/app/public" ] 
+    then
+        exit 0
+    fi
+
+    ln -s /www/cgi-bin /app/public/cgi-bin
+    ln -s /www/luci-static /app/public/luci-static
+
+    exit 0
+}
+
+remove_certificates(){
+    if [ -z "$(find /etc -type f -iname "uhttpd.*" )" ]
+    then
+        exit 0
+    fi
+    
+    rm /etc/uhttpd.crt /etc/uhttpd.key
+    exit 0
+}
+
+disable_luci(){
+    if ! uci show uhttpd.captivefire
+    then
+        exit 0
+    fi
+    
+    uci set uhttpd.captivefire.no_symlinks='1'
+    uci del uhttpd.captivefire.ubus_prefix
+    uci commit
+    echo "uhttpd" >> /app/services
+    
+    exit 0
+}
+
+enable_luci(){
+    if ! uci show uhttpd.captivefire
+    then
+        exit 0
+    fi
+
+    uci set uhttpd.captivefire.no_symlinks='0'
+    uci set uhttpd.captivefire.ubus_prefix='/ubus'
+    uci commit
+    echo "uhttpd" >> /app/services
+    
+    exit 0
+}
+
+set_system_config(){
+    if uci show system.@system[0]
+    then
+        exit 0
+    fi
+    
+    uci set system.@system[0].hostname='Captivefire'
+    uci commit
+    echo "system" >> /app/services
+    
+    exit 0
+}
+
+set_network_config(){
+    if uci show network.lan
+    then
+        exit 0
+    fi
+    
+    uci set network.lan.ipaddr='10.0.0.11'
+    uci set network.lan.netmask='255.255.0.0'
+    uci set network.lan.hostname="`uci get system.@system[0].hostname`"
+    uci commit
+    echo "network" >> /app/services
+    
+    exit 0
+}
+
+set_dhcp_range(){
+    if uci show dhcp.lan
+    then
+        exit 0
+    fi
+    
+    uci del dhcp.lan.ra_slaac
+    uci set dhcp.lan.start='12'
+    uci set dhcp.lan.limit='1000'
+    uci commit
+    echo "dhcp" >> /app/services
+    
+    exit 0
+}
+
+set_captive_password(){
+    echo -e "Captivefire\nCaptivefire" | passwd  
+    exit 0
+}
+
+set_captive_wireless(){
+
+    if ! uci show wireless
+    then
+        exit 0
+    fi
+
+    # Delete existing wireless interfaces
+    while uci show wireless.@wifi-iface[-1]
+    do  
+        uci del wireless.@wifi-iface[-1]
+    done
+    
+    if uci show wireless.radio0 
+    then
+        # Enable radio
+        uci set wireless.radio0.disabled='0'
+        uci del wireless.radio0.htmode
+        uci set wireless.radio0.band='2g'
+        uci set wireless.radio0.channel='auto'
+        uci set wireless.radio0.cell_density='0'
+    fi
+    
+    uci set wireless.wifinet0=wifi-iface
+    uci set wireless.wifinet0.device='radio0'
+    uci set wireless.wifinet0.mode='ap'
+    uci set wireless.wifinet0.ssid='🔥 Captivefire'
+    uci set wireless.wifinet0.encryption='none'
+    uci set wireless.wifinet0.network='lan'
+    uci set wireless.wifinet0.disabled='0'
+
+    uci commit
+    echo "wireless" >> /app/services
+    
+    exit 0
+}
+
+set_captive_portal_firewall(){
+    
+    if ! uci show firewall
+    then
+        exit 0
+    fi
+
+    # Delete existing firewall redirect
+    while uci show firewall.@redirect[-1]
+    do  
+        uci del firewall.@redirect[-1]
+    done
+
+    if ! uci show network.lan
+    then
+        exit 0
+    fi
+    
+    # iptables -t nat -A PREROUTING -i br-lan -p tcp --dport 80 -j DNAT --to-destination $(uci get network.lan.ipaddr):80
+    # https://forum.archive.openwrt.org/viewtopic.php?id=71812
+    uci add firewall redirect;
+    uci set firewall.@redirect[-1].name=Capture-HTTP;
+    uci set firewall.@redirect[-1].src=lan;
+    uci set firewall.@redirect[-1].proto=tcp;
+    uci set firewall.@redirect[-1].src_dip=!$(uci get network.lan.ipaddr);
+    uci set firewall.@redirect[-1].src_dport="80";
+    uci set firewall.@redirect[-1].dest_port="80";
+    uci set firewall.@redirect[-1].dest_ip=$(uci get network.lan.ipaddr);
+    uci set firewall.@redirect[-1].target=DNAT;
+
+    uci commit
+    echo "firewall" >> /app/services
+    exit 0
+}
+
+ set_capture_dns(){
+    
+    if ! uci show firewall || ! uci show dhcp.@dnsmasq[0] || ! uci get network.lan.ipaddr
+    then
+        exit 0
+    fi
+
+    uci del dhcp.@dnsmasq[0].address
+    uci add_list dhcp.@dnsmasq[0].address="/${1:-router.local}/$(uci get network.lan.ipaddr)";
+
+    uci add firewall redirect;
+    uci set firewall.@redirect[-1].name=Capture-DNS;
+    uci set firewall.@redirect[-1].src=lan;
+    uci set firewall.@redirect[-1].src_dip=!$(uci get network.lan.ipaddr);
+    uci set firewall.@redirect[-1].src_dport=53;
+    uci set firewall.@redirect[-1].dest_port=53;
+    uci set firewall.@redirect[-1].dest_ip=$(uci get network.lan.ipaddr);
+    uci set firewall.@redirect[-1].target=DNAT;
+    exit 0
+}
+
+show_usage(){
+    echo "\n\t[+] Must invoke this binary with the function to call and his parameters"
+    exit 0
+}
+
+[ -z "$@" ] && show_usage
+
+if eval $@
+then
+    exit 0
+fi
+
+echo "\n\t[-] An error has ocurred calling '$@'"
+exit 1

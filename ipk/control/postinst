@@ -2,169 +2,28 @@
 
 set -eux
 
+UHTTPD_CONFIG="/app/uhttpd"
+
+# If not exists file uhttpd config so its for create the firmware image
+[ ! -f "$UHTTPD_CONFIG" ] && exit 0
+
+# Check if binary its installed
+if ! which captivefire; then exit 0 fi
+
 # Added uhttpd configuration
-mv /app/uhttpd /etc/config/uhttpd
+mv $UHTTPD_CONFIG /etc/config/uhttpd
 
-function setSSHAcces(){
-    uci set dropbear.@dropbear[0].PasswordAuth="0"
-    uci set dropbear.@dropbear[0].RootPasswordAuth="0"
-    tee -a /etc/dropbear/authorized_keys < /root/.ssh/id_rsa_captivefire.pub
-    uci commit
-    echo "dropbear" >> /app/services
-}
+captivefire set_luci_configuration
+captivefire set_ssh_access
+captivefire set_captive_password
+captivefire set_system_config
+captivefire set_network_config
+captivefire set_dhcp_range
+captivefire set_captive_portal_firewall
+captivefire set_captive_wireless
+captivefire disable_luci
+captivefire remove_certificates
 
-function setLuciConfigurationFolders(){
-    ln -s /www/cgi-bin /app/public/cgi-bin
-    ln -s /www/luci-static /app/public/luci-static
-}
-
-function removeCertificates(){
-    rm /etc/uhttpd.crt /etc/uhttpd.key
-}
-
-function disableLuciApp(){
-    uci set uhttpd.captivefire.no_symlinks='1'
-    uci del uhttpd.captivefire.ubus_prefix
-    uci commit
-    echo "uhttpd" >> /app/services
-}
-
-function enableLuciApp(){
-    uci set uhttpd.captivefire.no_symlinks='0'
-    uci set uhttpd.captivefire.ubus_prefix='/ubus'
-    uci commit
-    echo "uhttpd" >> /app/services
-}
-
-function setSystemConfiguration(){
-
-    HOSTNAME="`uci get system.@system[0].hostname`"
-    if [ $HOSTNAME = 'Captivefire' ]
-    then
-        echo "The configuration has been setted"
-        exit 0
-    else
-        uci set system.@system[0].hostname='Captivefire'
-        uci commit
-        echo "system" >> /app/services
-        
-        setNetworkConfiguration
-        setDhcpRange
-        if uci show wireless 
-        then
-            setCaptivefireWireless
-        fi
-        setCaptivePortalFirewall
-    fi
-}
-
-function setNetworkConfiguration(){
-    if uci show network.lan
-    then
-        uci set network.lan.ipaddr='10.0.0.11'
-        uci set network.lan.netmask='255.255.0.0'
-        uci set network.lan.hostname="`uci get system.@system[0].hostname`"
-        uci commit
-        echo "network" >> /app/services
-    fi
-}
-
-function setDhcpRange(){
-    uci del dhcp.lan.ra_slaac
-    uci set dhcp.lan.start='12'
-    uci set dhcp.lan.limit='1000'
-    uci commit
-    echo "dhcp" >> /app/services
-}
-
-function setCaptivePassword(){
-    echo -e "Captivefire\nCaptivefire" | passwd  
-}
-
-function setCaptivefireWireless(){
-
-    # Delete existing wireless interfaces
-    while uci show wireless.@wifi-iface[-1]
-    do  
-        uci del wireless.@wifi-iface[-1]
-    done
-    
-    if uci show wireless.radio0 
-    then
-        # Enable radio
-        uci set wireless.radio0.disabled='0'
-        uci del wireless.radio0.htmode
-        uci set wireless.radio0.band='2g'
-        uci set wireless.radio0.channel='auto'
-        uci set wireless.radio0.cell_density='0'
-    fi
-    
-    uci set wireless.wifinet0=wifi-iface
-    uci set wireless.wifinet0.device='radio0'
-    uci set wireless.wifinet0.mode='ap'
-    uci set wireless.wifinet0.ssid='🔥 Captivefire'
-    uci set wireless.wifinet0.encryption='none'
-    uci set wireless.wifinet0.network='lan'
-    uci set wireless.wifinet0.disabled='0'
-
-    uci commit
-    echo "wireless" >> /app/services
-}
-
-function setCaptivePortalFirewall(){
-    
-    # Delete existing firewall redirect
-    while uci show firewall.@redirect[-1]
-    do  
-        uci del firewall.@redirect[-1]
-    done
-
-    if uci show network.lan
-    then
-        setCaptureHTTP
-    fi
-    # setCaptureDNS
-
-    uci commit
-    echo "firewall" >> /app/services
-}
-
-function setCaptureHTTP(){
-    
-    # iptables -t nat -A PREROUTING -i br-lan -p tcp --dport 80 -j DNAT --to-destination $(uci get network.lan.ipaddr):80
-    # https://forum.archive.openwrt.org/viewtopic.php?id=71812
-    uci add firewall redirect;
-    uci set firewall.@redirect[-1].name=Capture-HTTP;
-    uci set firewall.@redirect[-1].src=lan;
-    uci set firewall.@redirect[-1].proto=tcp;
-    uci set firewall.@redirect[-1].src_dip=!$(uci get network.lan.ipaddr);
-    uci set firewall.@redirect[-1].src_dport="80";
-    uci set firewall.@redirect[-1].dest_port="80";
-    uci set firewall.@redirect[-1].dest_ip=$(uci get network.lan.ipaddr);
-    uci set firewall.@redirect[-1].target=DNAT;
-}
-
-function  setCaptureDNS(){
-    
-    uci del dhcp.@dnsmasq[0].address
-    uci add_list dhcp.@dnsmasq[0].address="/router.local/$(uci get network.lan.ipaddr)";
-
-    uci add firewall redirect;
-    uci set firewall.@redirect[-1].name=Capture-DNS;
-    uci set firewall.@redirect[-1].src=lan;
-    uci set firewall.@redirect[-1].src_dip=!$(uci get network.lan.ipaddr);
-    uci set firewall.@redirect[-1].src_dport=53;
-    uci set firewall.@redirect[-1].dest_port=53;
-    uci set firewall.@redirect[-1].dest_ip=$(uci get network.lan.ipaddr);
-    uci set firewall.@redirect[-1].target=DNAT;
-}
-
-setLuciConfigurationFolders
-setSSHAcces
-setCaptivePassword
-setSystemConfiguration
-removeCertificates
-disableLuciApp
-
-service cron stop
 service cron start
+
+exit 0

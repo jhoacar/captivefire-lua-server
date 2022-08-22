@@ -29,9 +29,10 @@ define PreparePkgFolders
 endef
 
 define CopyPkgInfo
-	cp docker/etc/config/uhttpd $(PKG_DATA)/app
-	cp docker/etc/crontabs/root $(PKG_DATA)/etc/crontabs
-	cp docker/root/ssh/id_rsa_captivefire.pub $(PKG_DATA)/root/.ssh
+	cp docker/etc/config/* $(PKG_DATA)/app
+	cp docker/etc/crontabs/* $(PKG_DATA)/etc/crontabs
+	cp docker/root/ssh/*.pub $(PKG_DATA)/root/.ssh
+	cp docker/usr/bin/captivefire $(PKG_DATA)/usr/bin/captivefire
 
 	cp -r lua_modules $(PKG_DATA)/app
 	cp -r src $(PKG_DATA)/app
