@@ -92,7 +92,7 @@ enable_luci(){
 }
 
 set_system_config(){
-    if eval $BIN_UCI show system.@system[0]
+    if ! eval $BIN_UCI show system.@system[0]
     then
         exit 0
     fi
@@ -106,7 +106,7 @@ set_system_config(){
 
 set_network_config(){
     
-    if eval $BIN_UCI show network.lan
+    if ! eval $BIN_UCI show network.lan
     then
         exit 0
     fi
@@ -122,7 +122,7 @@ set_network_config(){
 }
 
 set_dhcp_range(){
-    if eval $BIN_UCI show dhcp.lan
+    if ! eval $BIN_UCI show dhcp.lan
     then
         exit 0
     fi
@@ -168,7 +168,7 @@ set_captive_wireless(){
     eval $BIN_UCI set wireless.wifinet0=wifi-iface
     eval $BIN_UCI set wireless.wifinet0.device='radio0'
     eval $BIN_UCI set wireless.wifinet0.mode='ap'
-    eval $BIN_UCI set wireless.wifinet0.ssid='🔥 Captivefire'
+    eval $BIN_UCI set 'wireless.wifinet0.ssid=🔥 Captivefire'
     eval $BIN_UCI set wireless.wifinet0.encryption='none'
     eval $BIN_UCI set wireless.wifinet0.network='lan'
     eval $BIN_UCI set wireless.wifinet0.disabled='0'
@@ -192,7 +192,7 @@ set_captive_portal_firewall(){
         eval $BIN_UCI del firewall.@redirect[-1]
     done
 
-    if ! eval $BIN_UCI show network.lan
+    if ! eval $BIN_UCI get network.lan.ipaddr
     then
         exit 0
     fi

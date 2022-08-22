@@ -2,8 +2,10 @@
 
 set -ux
 
+PATH_FIRMWARE_BUILDER="/home/build/openwrt/build_dir/target-*/root-*"
+
 # Check if is in relative path or absolute
-if pwd | grep /home/build/openwrt/build_dir/target-*/root-*
+if pwd | grep $PATH_FIRMWARE_BUILDER
 then
     # If it is in firmware builder
     PREFIX="$(pwd)/"
@@ -34,7 +36,15 @@ find "$SRC_BANNER_FILE" && \
     rm $SRC_BANNER_FILE
 
 find "$SRC_RC_LOCAL_FILE" && \
-    mv $SRC_RC_LOCAL_FILE $DST_RC_LOCAL_FILE
+    mv $SRC_RC_LOCAL_FILE $DST_RC_LOCAL_FILE && \
+    rm $SRC_RC_LOCAL_FILE
+
+if pwd | grep $PATH_FIRMWARE_BUILDER
+then
+    # If it is in firmware builder
+    exit 0
+fi
+
 
 # If not exists file uhttpd config so
 # The file was moved before or
