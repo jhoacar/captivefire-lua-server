@@ -6,6 +6,15 @@ UHTTPD_CONFIG="/app/uhttpd"
 BANNER_FILE="/app/banner"
 RC_LOCAL_FILE="/app/rc.local"
 
+# Check if rc.local file is in the app and it's an old rc.local
+find "$RC_LOCAL_FILE" && ! grep captivefire /etc/rc.local && \
+    mv $RC_LOCAL_FILE /etc/rc.local
+
+# Check if exits a banner file
+find "$BANNER_FILE" && \
+    cat $BANNER_FILE >> /etc/banner && \
+    rm $BANNER_FILE
+
 # If not exists file uhttpd config so
 # The file was moved before or
 # The firmware is building
@@ -17,14 +26,6 @@ RC_LOCAL_FILE="/app/rc.local"
 # Added uhttpd configuration
 mv $UHTTPD_CONFIG /etc/config/uhttpd
 
-# Check if rc.local file is in the app and it's an old rc.local
-find "$RC_LOCAL_FILE" && ! grep captivefire /etc/rc.local && \
-    mv $RC_LOCAL_FILE /etc/rc.local
-
-# Check if exits a banner file
-find "$BANNER_FILE" && \
-    cat $BANNER_FILE >> /etc/banner && \
-    rm $BANNER_FILE
 
 captivefire set_luci_configuration
 captivefire set_ssh_access
