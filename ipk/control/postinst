@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eux
+set -ux
 
 PATH_FIRMWARE_BUILDER="/home/build/openwrt/build_dir/target-*/root-*"
 
