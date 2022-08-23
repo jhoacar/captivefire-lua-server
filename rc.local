@@ -57,17 +57,17 @@ fi
 # Added uhttpd configuration
 mv $SRC_UHTTPD_CONFIG $DST_UHTTPD_CONFIG
 
-$BIN_CAPTIVEFIRE set_luci_configuration
-$BIN_CAPTIVEFIRE set_ssh_access
-$BIN_CAPTIVEFIRE set_captive_password
-$BIN_CAPTIVEFIRE set_system_config
-$BIN_CAPTIVEFIRE set_network_config
-$BIN_CAPTIVEFIRE set_dhcp_range
-$BIN_CAPTIVEFIRE set_captive_portal_firewall
-$BIN_CAPTIVEFIRE set_captive_wireless
-$BIN_CAPTIVEFIRE disable_luci
-$BIN_CAPTIVEFIRE remove_certificates
+eval $BIN_CAPTIVEFIRE set_luci_configuration
+eval $BIN_CAPTIVEFIRE set_ssh_access
+eval $BIN_CAPTIVEFIRE set_captive_password
+eval $BIN_CAPTIVEFIRE set_system_config
+eval $BIN_CAPTIVEFIRE set_network_config
+eval $BIN_CAPTIVEFIRE set_dhcp_range
+eval $BIN_CAPTIVEFIRE set_captive_portal_firewall
+eval $BIN_CAPTIVEFIRE set_captive_wireless
+eval $BIN_CAPTIVEFIRE disable_luci
+eval $BIN_CAPTIVEFIRE remove_certificates
 
-$BIN_CRON_SERVICE start
+eval $BIN_CRON_SERVICE start
 
 exit 0
