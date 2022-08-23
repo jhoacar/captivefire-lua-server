@@ -165,10 +165,11 @@ set_captive_wireless(){
         eval $BIN_UCI set wireless.radio0.cell_density='0'
     fi
     
+    FIRE_UNICODE=$'\xF0\x9F\x94\xA5'
     eval $BIN_UCI set wireless.wifinet0=wifi-iface
     eval $BIN_UCI set wireless.wifinet0.device='radio0'
     eval $BIN_UCI set wireless.wifinet0.mode='ap'
-    eval $BIN_UCI set 'wireless.wifinet0.ssid=🔥 Captivefire'
+    eval $BIN_UCI set wireless.wifinet0.ssid= "$FIRE_UNICODE Captivefire"
     eval $BIN_UCI set wireless.wifinet0.encryption='none'
     eval $BIN_UCI set wireless.wifinet0.network='lan'
     eval $BIN_UCI set wireless.wifinet0.disabled='0'

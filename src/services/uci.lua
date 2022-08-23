@@ -31,7 +31,7 @@ local dispatch = function(action, configuration, section, option, value)
         command = string.format("%s.%s", command, option)
     end
     if #value > 1 then
-        command = string.format("%s=%s'", command, #value)
+        command = string.format("%s=%s'", command, value)
     end
 
     local handler = io.popen(command)

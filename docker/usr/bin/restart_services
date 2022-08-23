@@ -4,8 +4,8 @@ set -eux
 
 for SERVICE in `cat /app/services`; 
 do
-    EXISTS=$(find /etc/init.d -iname "$SERVICE")
-    [ ! -z "$EXISTS" ] && service $SERVICE restart
+    EXISTS=$(find /etc/init.d -type f -iname "$SERVICE")
+    [ ! -z "$EXISTS" ] && /etc/init.d/$SERVICE restart
 done; 
 
 echo "" > '/app/services';
