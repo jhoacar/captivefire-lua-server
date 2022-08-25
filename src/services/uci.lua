@@ -20,6 +20,22 @@ local commit = function(configuration)
     }
 end
 
+local get_scaped_unicode = function(string)
+    local validated = ""
+    for i = 1, #string do
+        local c = string:sub(i, i)
+        if c:match('%w') or c:match('%s') then
+            validated = validated .. c
+        elseif c~="'" then
+            validated = validated .. string.format("\\x%x", string.byte(c))
+        end
+    end
+    local handler = io.popen(string.format("printf '%s'",validated))
+    local result = handler:read("*all")
+    handler:close()
+    return result
+end
+
 local dispatch = function(action, configuration, section, option, value)
 
     local command = string.format("uci %s %s", action, configuration)
@@ -31,7 +47,7 @@ local dispatch = function(action, configuration, section, option, value)
         command = string.format("%s.%s", command, option)
     end
     if #value > 1 then
-        command = string.format("%s=%s", command, value)
+        command = string.format("%s='%s'", command, get_scaped_unicode(value))
     end
 
     local handler = io.popen(command)
