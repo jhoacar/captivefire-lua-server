@@ -1,7 +1,17 @@
 local uci = require("services.uci")
 local UciController = {}
 
-UciController.get = require("controllers.notfound")
+UciController.get = function(self)
+    return {
+        json = {
+            req = self.req,
+            env = env
+        }
+
+    }
+end
+
+-- require("controllers.notfound")
 
 UciController.post = function(self)
 

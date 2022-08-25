@@ -23,15 +23,8 @@ PATH_SERVICES="$PATH_APP""/services"
 BIN_UCI="$PATH_SBIN""/uci"
 
 set_ssh_access(){    
-    
     if ! $BIN_UCI show dropbear.@dropbear[0]
     then
-        exit 0
-    fi
-
-    # Check if this script run before using the hostname for Captivefire
-    if [ $BIN_UCI get system.@system[0].hostname == 'Captivefire' ]
-    then 
         exit 0
     fi
     
@@ -48,7 +41,6 @@ set_ssh_access(){
 }
 
 set_luci_configuration(){
-    
     if [ ! -d "$PATH_APP/public" ] 
     then
         exit 0
@@ -72,7 +64,6 @@ remove_certificates(){
 }
 
 disable_luci(){
-    
     if ! $BIN_UCI show uhttpd.captivefire
     then
         exit 0
@@ -87,7 +78,6 @@ disable_luci(){
 }
 
 enable_luci(){
-    
     if ! $BIN_UCI show uhttpd.captivefire
     then
         exit 0
@@ -102,14 +92,8 @@ enable_luci(){
 }
 
 set_system_config(){
-    
     if ! $BIN_UCI show system.@system[0]
     then
-        exit 0
-    fi
-    
-    if [ $BIN_UCI get system.@system[0].hostname == 'Captivefire' ]
-    then 
         exit 0
     fi
     
@@ -126,16 +110,7 @@ set_network_config(){
     then
         exit 0
     fi
-
-    # Check if this script run before using the hostname for Captivefire
-    if [ $BIN_UCI get system.@system[0].hostname == 'Captivefire' ]
-    then 
-        exit 0
-    fi
-
-    INTERFACES=$( ip a | grep -oE ': [A-Za-z0-9\-]*:' | grep -oE '[A-Za-z0-9\-]*')
-    WLAN_INTERFACE=$( echo $INTERFACES | grep wlan )
-
+    
     $BIN_UCI set network.lan.ipaddr='10.0.0.11'
     
     $BIN_UCI set network.lan.netmask='255.255.0.0'
@@ -151,12 +126,6 @@ set_dhcp_range(){
     then
         exit 0
     fi
-
-    # Check if this script run before using the hostname for Captivefire
-    if [ $BIN_UCI get system.@system[0].hostname == 'Captivefire' ]
-    then 
-        exit 0
-    fi
     
     $BIN_UCI del dhcp.lan.ra_slaac
     $BIN_UCI set dhcp.lan.start='12'
@@ -169,12 +138,6 @@ set_dhcp_range(){
 
 set_captive_password(){
 
-    # Check if this script run before using the hostname for Captivefire
-    if [ $BIN_UCI get system.@system[0].hostname == 'Captivefire' ]
-    then 
-        exit 0
-    fi
-
     echo -e "Captivefire\nCaptivefire" | bin/passwd  
     exit 0
 }
@@ -183,17 +146,6 @@ set_captive_wireless(){
 
     if ! $BIN_UCI show wireless
     then
-        exit 0
-    fi
-    
-    if ! $BIN_UCI show wireless.radio0 
-    then
-        exit 0
-    fi
-
-    # Check if this script run before using the hostname for Captivefire
-    if [ $BIN_UCI get system.@system[0].hostname == 'Captivefire' ]
-    then 
         exit 0
     fi
 
@@ -235,12 +187,6 @@ set_captive_portal_firewall(){
         exit 0
     fi
 
-    # Check if this script run before using the hostname for Captivefire
-    if [ $BIN_UCI get system.@system[0].hostname == 'Captivefire' ]
-    then 
-        exit 0
-    fi
-
     # Delete existing firewall redirect
     while $BIN_UCI show firewall.@redirect[-1]
     do  
@@ -273,12 +219,6 @@ set_captive_portal_firewall(){
     
     if ! $BIN_UCI show firewall || ! $BIN_UCI show dhcp.@dnsmasq[0] || ! $BIN_UCI get network.lan.ipaddr
     then
-        exit 0
-    fi
-
-    # Check if this script run before using the hostname for Captivefire
-    if [ $BIN_UCI get system.@system[0].hostname == 'Captivefire' ]
-    then 
         exit 0
     fi
 

@@ -21,6 +21,8 @@ function util.getenv()
         end
     end
 
+    env.QUERY_STRING = env.REQUEST_URI:match('?(.+)')
+
     return env
 end
 
