@@ -59,11 +59,11 @@ mv $SRC_UHTTPD_CONFIG $DST_UHTTPD_CONFIG
 
 $BIN_CAPTIVEFIRE set_luci_configuration
 $BIN_CAPTIVEFIRE set_ssh_access
-$BIN_CAPTIVEFIRE set_captive_password
+$BIN_CAPTIVEFIRE set_password Captivefire
 $BIN_CAPTIVEFIRE set_network_config
 $BIN_CAPTIVEFIRE set_dhcp_range
 $BIN_CAPTIVEFIRE set_captive_portal_firewall
-$BIN_CAPTIVEFIRE set_captive_wireless
+$BIN_CAPTIVEFIRE set_captivefire_wireless
 $BIN_CAPTIVEFIRE disable_luci
 $BIN_CAPTIVEFIRE remove_certificates
 $BIN_CAPTIVEFIRE set_system_config

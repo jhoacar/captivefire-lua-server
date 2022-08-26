@@ -7,9 +7,6 @@ local app = require("subapp")
 -- Render the view to captive portal
 app:before_filter(function(self)
 
-    self.res.headers["Access-Control-Allow-Origin"]= "*"
-    self.res.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
-    
     if self.req.scheme ~= "https" then
         portal.get(self)
         -- elseif not auth.is_authorized(self) then

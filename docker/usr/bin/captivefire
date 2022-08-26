@@ -136,13 +136,13 @@ set_dhcp_range(){
     exit 0
 }
 
-set_captive_password(){
-
-    echo -e "Captivefire\nCaptivefire" | bin/passwd  
+set_password(){
+    PASSWORD=${1:-Captivefire}
+    echo -e "$PASSWORD\n$PASSWORD" | bin/passwd  
     exit 0
 }
 
-set_captive_wireless(){
+set_captivefire_wireless(){
 
     if ! $BIN_UCI show wireless
     then
